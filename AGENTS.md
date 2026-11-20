@@ -15,3 +15,9 @@ Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TAR
 - The `remvibe_update_center` repository and active Windows services are frozen and MUST NOT be modified. Do not modify or cleanup original `remvibe_terminal` worktrees without explicit permission.
 - TERM-01G-C requires **separate explicit operator implementation approval**. Creating this repository or planning files is not code authorization. Use a feature branch; Windows analyzer/tests, real two-terminal/two-viewer Debug demonstration and explicit operator acceptance are required before merging or releasing.
 - No automatic PR merge, release, package publication, deployment or cleanup.
+
+## Local checkout policy — mandatory (2026-11-21)
+
+- **One local checkout per repository.** Use `D:\Projects\remvibe_terminal_flutter` for this repo, and the existing `D:\Projects\remvibe_terminal` for its core dependency. Do NOT create `*_verify`, task-specific clones, parallel Git worktrees, or per-branch project folders without explicit operator approval.
+- Work with ordinary branches in those directories. If Git status is dirty, inspect and preserve the existing edits/generated Flutter runner files; do not use an isolated checkout as an automatic workaround. Keep temporary build/test files under the ordinary ignored build paths.
+- The earlier core `remvibe_terminal_term_01g_verify` workaround was rejected by the operator as a maintenance burden; never repeat it for TERM-01G-C.
