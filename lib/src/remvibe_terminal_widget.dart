@@ -96,7 +96,7 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
     // may be split between TerminalStreamEvent output frames.
     final bytes = StreamController<List<int>>(sync: true);
     _outputBytes = bytes;
-    _output = bytes.stream.transform(utf8.decoder).listen(
+    _output = bytes.stream.transform(const Utf8Decoder(allowMalformed: true)).listen(
       (data) {
         if (!mounted || _detached || data.isEmpty) return;
         _terminal.write(data);
