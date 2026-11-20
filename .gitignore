@@ -1,0 +1,17 @@
+# Generated Flutter/Dart files
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
+coverage/
+flutter_*.png
+**/flutter/ephemeral/
+**/Generated.xcconfig
+**/generated_plugin_registrant.dart
+**/generated_plugins.cmake
+**/flutter_export_environment.sh
+*.iml
+.idea/
+.vscode/
+.DS_Store
