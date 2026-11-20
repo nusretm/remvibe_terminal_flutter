@@ -15,10 +15,13 @@ flutter analyze
 flutter test
 
 cd example
-# Generate runner IN THIS checkout, never as a parallel verification clone.
-flutter create . --platforms=linux
+# Generate the Linux runner only when missing, in the SAME checkout.
+if [[ ! -f linux/CMakeLists.txt ]]; then
+  flutter create . --platforms=linux
+fi
 flutter pub get
 flutter analyze
+flutter test
 
 echo "TERM-01G-C Ubuntu UI TEST: example uses an EXPLICIT mock handler."
 echo "NO Linux PTY native implementation or real shell is claimed."
