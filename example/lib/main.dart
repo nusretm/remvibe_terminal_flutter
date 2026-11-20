@@ -38,8 +38,6 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
   TerminalHandler? _secondHandler;
   TerminalHandler? _mirrorHandler;
 
-  MockTerminalHandler? _mockFirst;
-  MockTerminalHandler? _mockSecond;
   Timer? _mockTicker;
 
   bool _mirrorFirst = false;
@@ -109,8 +107,6 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
     // An actual Linux PTY backend has NOT been implemented in the core.
     final first = MockTerminalHandler('ubuntu-ui-mock-1');
     final second = MockTerminalHandler('ubuntu-ui-mock-2');
-    _mockFirst = first;
-    _mockSecond = second;
     _firstHandler = first;
     _secondHandler = second;
     _mirrorHandler = first;
