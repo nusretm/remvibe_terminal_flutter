@@ -1,6 +1,6 @@
 # TERM-01G-C — independent Flutter terminal viewer: proposed implementation
 
-Status (2026-11-21): **Planning complete; explicit operator implementation authorization required.** No source migration has been performed.
+Status (2026-11-21): **C1–C3 Flutter source on dedicated feature branch; uncompiled/unverified. Windows acceptance first; Ubuntu Flutter UI verification afterward. No merge/release.**
 
 ## Why and owning repository
 
@@ -55,4 +55,15 @@ Rollback: leave `remvibe_terminal` and its operator-accepted Flutter example unt
 
 No `TerminalHandlerRemote`, Networking, RPC, auth, device selection, Client/Server/Console protocols, persistent agent, SCM, installer, release or Linux/macOS implementation. `remvibe_terminal_flutter` must never import `remvibe_update_center`.
 
-**Approval request:** Authorize implementing only C1-C4 above on `feature/term-01g-c-viewer-extraction`, with Windows-first tests and operator GUI acceptance. This document does NOT itself grant that authorization. Merge/release remains a separate decision.
+**Approval record:** Operator agreed to proceed with TERM-01G-C and expressly requested Ubuntu compilation/testing after widget completion. Source was implemented only within this UI-only scope; test source presence is NOT test PASS or product acceptance. Ubuntu UI testing does not imply permission to implement Linux native PTYs. Merge/release remains a separate decision. Merge/release remains a separate decision.
+
+## Implementation evidence — C1–C3 source (2026-11-21)
+
+- Flutter-only root library and package metadata created; core git dependency pinned to `bad58e1244bfced08fe18c485df71f1acbd8cd7b`, an operator-accepted TERM-01G-B feature commit.
+- Extracted existing working `stable_scrollback_terminal_view.dart`, `terminal_clipboard_paste.dart`, and `terminal_resize_coordinator.dart` with minimal behavior changes.
+- `lib/src/remvibe_terminal_widget.dart` now consumes a required `TerminalHandler`, optionally displays a label and UI-only `readOnly` state, registers typed state/output callbacks, maintains incremental UTF-8 and per-pane gap/sequence, and unregisters itself on disposal. It never detaches/terminates the PTY. Existing selection, clipboard confirmation, sequential paste and resize code was preserved.
+- Ported original clipboard/resize helper tests (8 total) and added four widget test sources for two watchers, independent disposal, read-only control, gap/exit and split UTF-8.
+- New `example/lib/main.dart` displays two simultaneous real Windows PowerShell ConPTY terminals and a toggle for two viewers of the first; explicit host-initiated detach/reattach included. Ubuntu/Linux uses `example/lib/mock_terminal_handler.dart` labeled **UI-only mock**, not a real Linux shell.
+- `tool/verify_windows.ps1` and `tool/verify_ubuntu.sh` added to run in the **same repository checkout**, without sibling `*_verify` folders. Ubuntu checklist: `TERM_01G_C_UBUNTU_VERIFICATION.md`.
+
+**IMPORTANT:** Dart/Flutter are unavailable in the authoring environment. No analyzer, test, native build, Windows application launch, or Ubuntu test has run for this new package. All verifications and operator feedback must be obtained before claiming a PASS. Source changes are isolated to the new feature branch; old `remvibe_terminal` widget and Update Center remain unchanged.
