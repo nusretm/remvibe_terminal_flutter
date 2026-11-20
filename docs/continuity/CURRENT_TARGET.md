@@ -16,3 +16,12 @@
 ## Local directory rule (2026-11-21)
 
 One local checkout per Git repository, normal feature branches, no temporary validation worktrees or per-task clones. For this project use `D:\Projects\remvibe_terminal_flutter`; the core remains `D:\Projects\remvibe_terminal`. Inspect any dirty status and protect existing files. The previously made `remvibe_terminal_term_01g_verify` checkout must not be used as a template; its cleanup is operator-controlled. See `AGENTS.md`.
+
+### Windows operator gate — second run (2026-11-21)
+
+- Operator continued in the existing single `D:\Projects\remvibe_terminal_flutter` checkout on `feature/term-01g-c-viewer-extraction` (pre-run HEAD `c43187b0b499fc54666a6a9b6a975ffbd2887f5c`). No verification worktree was created.
+- `git status --short` showed only Flutter-generated `analysis_options.yaml` and `example/analysis_options.yaml` exclude-build additions, plus untracked `pubspec.lock` and `example/pubspec.lock`. `git pull --ff-only` completed without overwriting them. These files must remain protected; no reset/clean is allowed.
+- `flutter pub get` root and example: PASS. Root `flutter analyze`: **No issues found, PASS**.
+- Root `flutter test`: **11 passed / 1 failed**, stopping the script before Windows example build/GUI. Only failure: first widget test expected one unregister call after removing pane B but got two. The test had changed the retained pane A's parent element path from `Row > Expanded > Widget` to `Widget` directly, legitimately disposing both old viewer elements and creating a new pane A. This was a **test fixture error**, not evidence of a PTY subscription bug.
+- Test corrected in commit `1627ab816bd1497249cf30c8b233efccfeda02d7`: preserve the original `Row > Expanded > Widget` path for pane A and verify the original registration token is retained when only pane B is removed.
+- **Rerun required.** No claim yet of 12/12 test PASS, Windows example build, GUI or Ubuntu verification. Preserve local changes in the single checkout. Do not merge, release, deploy or clean up.
