@@ -1,6 +1,6 @@
 # Current target — remvibe_terminal_flutter
 
-**TERM-01G-C — Flutter package C1–C3 SOURCE IMPLEMENTED; Windows/Ubuntu execution and operator acceptance PENDING.**
+**TERM-01G-C — Windows root/exemplar analyzers and tests PASS (12/12 + 1/1), real two-independent-PTY Windows GUI PASS; mirror/detach/resize/clipboard acceptance and Ubuntu gate PENDING.**
 
 - New repository: `nusretm/remvibe_terminal_flutter` (public; GitHub access verified).
 - Feature branch: `feature/term-01g-c-viewer-extraction`.
@@ -9,7 +9,7 @@
 - A two-pane example exists: real ConPTY PowerShell pairs on Windows with toggle to duplicate the first PTY into two viewers, and an explicitly labeled UI-only mock on Ubuntu/Linux. No Linux PTY or real Ubuntu shell support is claimed.
 - Source-of-truth boundaries: `PROJECT_RESPONSIBILITIES.md`, `TERM_01G_C_VIEWER_EXTRACTION.md`, and `AGENTS.md`.
 - Operator agreed to proceed and requested Ubuntu compilation/testing after completing the widget. **First Windows gate (2026-11-21):** `flutter pub get` succeeded, including the pinned `remvibe_terminal` Git dependency at `bad58e`; `flutter analyze` STOPPED with a single `unnecessary_import` info in `test/remvibe_terminal_widget_test.dart:1` for `dart:async`. The unused import was removed in commit `03a3ea75dbd7d8364cefe9866912cd026afc6f10`, without changing widget/runtime behavior; Windows rerun is pending. Flutter also printed that it upgraded `analysis_options.yaml` to exclude generated paths; inspect local Git status before pulling, preserve local changes. Flutter tests, example Windows build and GUI were **not reached**. Ubuntu gate is still pending until Windows acceptance. No changes to frozen Update Center or its services.
-- Windows acceptance: **root Flutter analyzer and 12/12 root tests PASS** in the third run. Example analyzer/test and real Windows GUI remain pending after replacing Flutter's stale generated `MyApp` test (details below). Verify two independent PTYs/two viewers, subscription isolation, copy/paste/selection/resize parity and no PTY termination when viewer disposed.
+- Windows acceptance: **root Flutter analyzer and 12/12 tests PASS; example Flutter analyzer and 1/1 test PASS; real Windows Debug EXE build/launch and independent side-by-side PowerShell execution PASS** (fourth run; screenshot). Same-PTY two-viewer mirror, detach/reattach with PID persistence, copy/paste/selection/resize parity require remaining GUI checks; see latest gate below.
 - Ubuntu acceptance (after Windows): Flutter Linux build, analyzer, tests, two-pane GUI **UI MOCK** demonstration and actual operator visual/clipboard/selection feedback. Results PENDING; separate Linux native PTY checkpoint needed for real shell support.
 - No `main` merge, release, package publication, deployment or cleanup is authorized.
 
@@ -34,3 +34,14 @@ One local checkout per Git repository, normal feature branches, no temporary val
 - Committed `example/test/widget_test.dart` with a real UI-mock subscriber/replay/unregister test (commit `bc123eb00f4d636e7a7095b33030d1cba67b1a93`), replacing the generic template permanently for future fresh checkouts. The existing **untracked** local generated `example/test/widget_test.dart` must be checked and specifically removed **only if** it matches the default `MyApp` counter template before `git pull --ff-only` can create the tracked file. Do NOT reset/clean or delete any other local files.
 - `tool/verify_windows.ps1` and `tool/verify_ubuntu.sh` now generate their platform runner only when absent and run `flutter test` inside `example/` as well. Same checkout only; no parallel worktree.
 - Next: operator-controlled local template reconciliation, fast-forward pull, rerun the Windows verification script; collect example analyzer/tests, real Windows executable and GUI observations. Ubuntu gate remains **NOT RUN** until Windows acceptance.
+
+### Windows operator gate — fourth run, real two-pane GUI (2026-11-21)
+
+- Operator safely removed ONLY the generated, untracked Flutter `MyApp` counter-template file after a content check and fast-forwarded to `5c122032d495c6ab9268fd3661c89b84502ea230` in the existing `D:\Projects\remvibe_terminal_flutter` checkout. No parallel worktree; preserved other Flutter-generated files.
+- Root `flutter pub get` PASS, root `flutter analyze` **No issues found**, root `flutter test` **12/12 PASS**.
+- Example `flutter pub get` PASS, example `flutter analyze` **No issues found**, example `flutter test` **1/1 PASS**.
+- Windows Debug `remvibe_terminal_flutter_example.exe` **built and launched** successfully. Operator supplied an actual GUI screenshot showing **two concurrent, independent PowerShell ConPTY terminals side by side**: left `PowerShell #1` executed `ls .\\build\\` and displayed the build directory; right `PowerShell #2` executed `ls` and displayed the example directory. This is observed GUI evidence for distinct concurrent local PTYs and terminal output rendering.
+- The final Flutter CLI line was `Lost connection to device`. Operator previously explained that this message appears when the main Debug window is closed directly rather than exiting with `q`. No crash is established from this line alone.
+- **Scope of PASS:** root and example static/test gates, actual Windows build/launch and two independent simultaneous terminals with real command execution.
+- **Not yet operator-observed:** pressing `Show two viewers of first PTY` and confirming both panes receive a new output frame from ONE process; host `Detach first controller` / reattach with same shell PID and output retention; interactive clipboard/long selection/resize parity. Those final interactive checks are still required for full TERM-01G-C Windows acceptance.
+- Ubuntu build/GUI testing remains **NOT RUN**, scheduled after the remaining Windows interactive checks. No merge, release, publication, service changes, or cleanup authorized.
