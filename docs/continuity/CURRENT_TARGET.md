@@ -10,3 +10,7 @@
 - Next gate: operator approval for the exact TERM-01G-C source migration scope. Then implement in small testable commits on the feature branch, without modifying frozen Update Center or its services.
 - Windows acceptance after code: Flutter analyzer, helper/widget tests, real Windows GUI with two PTYs in simultaneous panes, two viewers of one PTY, independent subscription cancellation, copy/paste/selection/resize parity and no PTY termination when a viewer is disposed.
 - No `main` merge, release, package publication, deployment or cleanup is authorized.
+
+## Local directory rule (2026-11-21)
+
+One local checkout per Git repository, normal feature branches, no temporary validation worktrees or per-task clones. For this project use `D:\Projects\remvibe_terminal_flutter`; the core remains `D:\Projects\remvibe_terminal`. Inspect any dirty status and protect existing files. The previously made `remvibe_terminal_term_01g_verify` checkout must not be used as a template; its cleanup is operator-controlled. See `AGENTS.md`.
