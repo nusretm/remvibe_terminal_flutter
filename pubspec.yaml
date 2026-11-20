@@ -1,0 +1,24 @@
+name: remvibe_terminal_flutter
+description: Reusable Flutter xterm2 terminal viewer driven by the RemVibe TerminalHandler contract.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  remvibe_terminal:
+    git:
+      url: https://github.com/nusretm/remvibe_terminal.git
+      ref: bad58e1244bfced08fe18c485df71f1acbd8cd7b
+  xterm2: ^5.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  fake_async: ^1.3.2
+
+flutter:
