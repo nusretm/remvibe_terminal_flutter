@@ -28,6 +28,7 @@ class RemVibeTerminalWidget extends StatefulWidget {
 
   final TerminalHandler handler;
   final String? label;
+
   /// UI-only hint; handler remains authoritative for control.
   final bool readOnly;
   final int initialColumns;
@@ -71,7 +72,7 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
   bool _pasting = false;
   bool _cancelPaste = false;
   bool _detached = false;
-  String _status = 'Attached';
+  String _status = 'Watching';
   int? _lastSequence;
   bool _outputGap = false;
 
