@@ -77,17 +77,24 @@ final class _FakeHandler implements TerminalHandler {
   }
 
   @override
-  Future<void> input(List<int> bytes) async => inputCalls++;
+  Future<void> input(List<int> bytes) async {
+    inputCalls++;
+  }
 
   @override
-  Future<void> resize({required int columns, required int rows}) async =>
-      resizeCalls++;
+  Future<void> resize({required int columns, required int rows}) async {
+    resizeCalls++;
+  }
 
   @override
-  Future<void> interrupt() async => interruptCalls++;
+  Future<void> interrupt() async {
+    interruptCalls++;
+  }
 
   @override
-  Future<void> detach() async => detachCalls++;
+  Future<void> detach() async {
+    detachCalls++;
+  }
 }
 
 Widget _harness(Widget child) => MaterialApp(
