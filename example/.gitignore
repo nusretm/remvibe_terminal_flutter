@@ -1,0 +1,7 @@
+.dart_tool/
+build/
+flutter_*.png
+.idea/
+*.iml
+# Runner scaffolding is generated in-place by flutter create.
+# Preserve operator-local platform runner changes until reviewed.
