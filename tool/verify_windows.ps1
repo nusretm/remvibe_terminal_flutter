@@ -11,10 +11,13 @@ try {
 
     Push-Location (Join-Path $root 'example')
     try {
-        # Platform runner generated inside the SAME repository checkout.
-        flutter create . --platforms=windows
+        # Generate only when missing. Never create a second checkout.
+        if (-not (Test-Path '.\windows\CMakeLists.txt')) {
+            flutter create . --platforms=windows
+        }
         flutter pub get
         flutter analyze
+        flutter test
         Write-Host 'TERM-01G-C Windows Debug: two real ConPTY panes; toggle mirror; detach/reattach'
         flutter run -d windows
     } finally {
