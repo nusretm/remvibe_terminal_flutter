@@ -2,7 +2,7 @@
 
 Reusable Flutter terminal viewer for the independent [RemVibe Terminal](https://github.com/nusretm/remvibe_terminal) Dart/ConPTY core.
 
-**Status:** Repository initialized. TERM-01G-C widget extraction is **planned but not implemented or operator-approved**. No Flutter package build, tests, release or publication has been completed here.
+**Status on feature branch:** TERM-01G-C Flutter viewer source, tests and two-pane demo implemented; **not yet compiled or operator-verified** on Windows or Ubuntu. No release, publication or merge.
 
 ## Responsibilities
 
@@ -28,4 +28,10 @@ Do **not** add networking, Fleet, device identity, SCM, installers, notification
 
 The existing operator-verified Flutter terminal implementation remains under the `example/lib/terminal_widget/` directory of `remvibe_terminal` on the `feature/term-01g-local-multi-handler` branch. TERM-01G-C will extract that working implementation into this repository after separate explicit operator approval. Preserve selection, clipboard, resize and live ConPTY behaviors.
 
-The new package is not ready to import: `pubspec.yaml` and functional source will be added as part of the approved extraction checkpoint. No `main` merge or release is implied by repository creation.
+The feature branch provides a Flutter `pubspec.yaml`, public widget export and separate `example/` application. The core dependency is pinned to its accepted TERM-01G-B feature commit so no merge into the core main branch is required. Actual Windows verification must come first; Ubuntu Flutter/UI-mock verification afterward. No automatic merge or release is implied.
+
+## Run from a single checkout per repository
+
+On Windows, clone this repo once at `D:\Projects\remvibe_terminal_flutter`, switch to `feature/term-01g-c-viewer-extraction`, then run `./tool/verify_windows.ps1` in PowerShell. This validates Flutter analysis/tests then starts the two-pane real ConPTY Windows Debug example. The native core comes from the pinned Git dependency; no extra verification worktree is needed.
+
+After Windows behavior is accepted, run `bash tool/verify_ubuntu.sh` on an Ubuntu desktop with Flutter Linux prerequisites. The Ubuntu example clearly labels its **mock** event source. It tests terminal *rendering* and two independent subscriptions but not a real Linux shell. See `docs/continuity/TERM_01G_C_UBUNTU_VERIFICATION.md` for the exact gate.
