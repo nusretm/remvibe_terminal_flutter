@@ -1,0 +1,25 @@
+name: remvibe_terminal_flutter_example
+description: Windows ConPTY and Linux mock-viewer verification harness.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  remvibe_terminal_flutter:
+    path: ..
+  remvibe_terminal:
+    git:
+      url: https://github.com/nusretm/remvibe_terminal.git
+      ref: bad58e1244bfced08fe18c485df71f1acbd8cd7b
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
