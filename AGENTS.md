@@ -1,6 +1,6 @@
 # remvibe_terminal_flutter — Working rules
 
-**Current state (2026-11-21):** Independent repository initialized. TERM-01G-C is **planning only**; Flutter viewer extraction has NOT been approved, coded, tested, or accepted.
+**Current state (2026-11-21):** TERM-01G-C C1–C3 source implemented on feature branch; Windows and Ubuntu verification **NOT RUN**; no runtime/product acceptance or merge. Operator requested Ubuntu build/UI testing **after** Windows widget verification. Linux native PTY remains outside this package.
 
 Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TARGET.md`, and `docs/continuity/TERM_01G_C_VIEWER_EXTRACTION.md` before any implementation.
 
@@ -13,7 +13,7 @@ Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TAR
 - Terminal stream source, sequence/replay/gap and activity state remain core-owned. Never infer command completion from output/prompt/silence.
 - Do not implement `TerminalHandlerRemote`, RemVibe Networking, Server/Client/Console routing, identity/auth, SCM, native PTY/DLLs, installers, update engines, cross-device delivery or notifications here.
 - The `remvibe_update_center` repository and active Windows services are frozen and MUST NOT be modified. Do not modify or cleanup original `remvibe_terminal` worktrees without explicit permission.
-- TERM-01G-C requires **separate explicit operator implementation approval**. Creating this repository or planning files is not code authorization. Use a feature branch; Windows analyzer/tests, real two-terminal/two-viewer Debug demonstration and explicit operator acceptance are required before merging or releasing.
+- Operator agreed to continue TERM-01G-C and requested a follow-on Ubuntu check. The approved UI-only work is on the feature branch; Windows analyzer/tests, two-terminal/two-viewer Debug demonstration and explicit operator acceptance are required. Then perform Ubuntu Flutter analyzer/tests and Linux UI-mock demonstration; neither constitutes Linux PTY support. No new responsibility may be added without separate approval.
 - No automatic PR merge, release, package publication, deployment or cleanup.
 
 ## Local checkout policy — mandatory (2026-11-21)
