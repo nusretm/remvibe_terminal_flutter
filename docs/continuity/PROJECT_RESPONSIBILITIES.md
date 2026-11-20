@@ -1,6 +1,6 @@
 # remvibe_terminal_flutter — responsibility and scope gate
 
-Status: Binding responsibility boundary; initialized 2026-11-21. This document defines owners, NOT permission to implement TERM-01G-C.
+Status: Binding responsibility boundary; initialized 2026-11-21. TERM-01G-C UI-only implementation has been agreed by the operator and committed on its feature branch, but Windows and Ubuntu technical/product acceptance are still pending. The document remains a mandatory scope gate.
 
 ## Mission
 
