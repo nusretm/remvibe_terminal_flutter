@@ -133,16 +133,24 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
 
-    await tester.pumpWidget(_harness(
-      RemVibeTerminalWidget(
-        key: const ValueKey('pane-a'),
-        handler: handler,
-        label: 'First pane',
-        autofocus: false,
+    final firstRegistration = handler.subscriptions.keys.first;
+    // Keep the original Row -> Expanded -> widget element path unchanged.
+    // Otherwise moving pane-a directly under SizedBox disposes *both*
+    // original elements and creates a new pane-a, legitimately causing
+    // two unregister calls instead of the one this test intends to verify.
+    await tester.pumpWidget(_harness(Row(children: [
+      Expanded(
+        child: RemVibeTerminalWidget(
+          key: const ValueKey('pane-a'),
+          handler: handler,
+          label: 'First pane',
+          autofocus: false,
+        ),
       ),
-    ));
+    ])));
     await tester.pump();
     expect(handler.subscriptions, hasLength(1));
+    expect(handler.subscriptions.keys.single, same(firstRegistration));
     expect(handler.unregisterCalls, 1);
     expect(handler.detachCalls, 0);
     expect(find.text('First pane'), findsOneWidget);
