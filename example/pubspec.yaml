@@ -1,5 +1,5 @@
 name: remvibe_terminal_flutter_example
-description: Windows ConPTY and Linux mock-viewer verification harness.
+description: Windows ConPTY and real Linux Bash/PTTY viewer verification harness.
 publish_to: none
 version: 0.1.0+1
 
@@ -14,7 +14,7 @@ dependencies:
   remvibe_terminal:
     git:
       url: https://github.com/nusretm/remvibe_terminal.git
-      ref: bad58e1244bfced08fe18c485df71f1acbd8cd7b
+      ref: 4a4271805175df89ee2282408e22103111156834
 
 dev_dependencies:
   flutter_test:
