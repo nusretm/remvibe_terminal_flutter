@@ -1,5 +1,10 @@
 # Current target — remvibe_terminal_flutter
 
+## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
+
+**Source committed, Ubuntu Dart/Flutter and operator acceptance PENDING.** New branch `feature/term-02b-flutter-linux-real-pty` uses pinned Linux-capable core `4a4271805175df89ee2282408e22103111156834`. The demo launches **two actual Bash processes** through `RemVibeTerminal.currentPlatform()` on Ubuntu and retains Windows ConPTY on Windows. The reusable widget accepts the optional originating-terminal `windowsPtyMode` renderer flag; default remains Windows-compatible. The mirror and detach/reattach buttons now work with real Linux PTYs; no transport code added to the viewer. Verify core Linux smoke first, then this repo's `tool/verify_ubuntu.sh` and real Bash GUI interactions. See `TERM_02B_LINUX_REAL_GUI.md`. No extra local clones/worktrees; no Update Center/SCM changes, merge, release or cleanup. The historical TERM-01G-C UI-mock acceptance below remains valid only for the earlier branch.
+
+
 **TERM-01G-C — ACCEPTED for scoped Flutter viewer behavior on Windows and Ubuntu. Windows real ConPTY and Ubuntu UI-mock build/GUI/interactions PASS. Real Ubuntu/Linux PTY is NOT implemented. Merge, release and cleanup require separate authorization.**
 
 - New repository: `nusretm/remvibe_terminal_flutter` (public; GitHub access verified).
