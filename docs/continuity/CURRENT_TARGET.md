@@ -2,6 +2,8 @@
 
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
+**First operator TERM-02B attempt BLOCKED:** preflight stopped on existing modified Flutter config and generated Linux runner/lockfiles **before switching to the real-Bash feature branch**. A subsequent direct `flutter run -d linux` displayed historical UI mock; that is not TERM-02B verification. Inspect local branch/HEAD, preserve files, then switch in the same checkout. Real Linux Flutter build/GUI remains PENDING.
+
 **Prerequisite core TERM-02A Ubuntu technical gate PASS:** `remvibe_terminal` tested at exact `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`, root analyzer clean, **35/35 tests PASS**, real two-Bash multi-handler/detach/reattach/resize/Ctrl+C/exit smoke PASS (exit 0). Both Flutter package and example are now pinned to this source. **TERM-02B Flutter Ubuntu analyzer/tests/Debug build and real GUI acceptance PENDING**; do not use historical UI-mock acceptance as evidence for real Linux Bash viewer. No merge/release/cleanup or Update Center/SCM changes. See `TERM_02B_LINUX_REAL_GUI.md`.
 
 
