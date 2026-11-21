@@ -79,7 +79,7 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
   bool _detached = false;
   String _status = 'Watching';
   int? _lastSequence;
-  bool _outputGap = false;
+  String? _lastOutputGapRange;
 
   @override
   void initState() {
@@ -119,20 +119,27 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
         if (!mounted || _detached) return;
         if (event.isGap) {
           _lastSequence = event.sequence;
-          _outputGap = true;
-          _setStatus('Output sequence gap: incomplete history');
+          _recordOutputGap(event.gapFromSequence!, event.gapToSequence!);
           return;
         }
         final previous = _lastSequence;
         if (previous != null && event.sequence <= previous) return;
         if (previous != null && event.sequence != previous + 1) {
-          _outputGap = true;
-          _setStatus('Output sequence gap: incomplete history');
+          _recordOutputGap(previous + 1, event.sequence - 1);
         }
         _lastSequence = event.sequence;
         bytes.add(event.bytes);
       },
     );
+  }
+
+  // Keep the last reported missing range visible across later state updates.
+  // A genuine gap must not be hidden just because output resumes.
+  void _recordOutputGap(int fromSequence, int toSequence) {
+    if (!mounted) return;
+    setState(() {
+      _lastOutputGapRange = '$fromSequence–$toSequence';
+    });
   }
 
   void _handleState(TerminalStateEvent event) {
@@ -336,7 +343,10 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
           child: Text(
-            _outputGap ? '$_status • incomplete output history' : _status,
+            _lastOutputGapRange == null
+                ? _status
+                : '$_status • incomplete output history '
+                    '(last gap $_lastOutputGapRange)',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white70, fontSize: 12),
