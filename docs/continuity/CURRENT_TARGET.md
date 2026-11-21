@@ -2,7 +2,9 @@
 
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
-**Source committed; core Ubuntu analyzer PASS, but full Dart and Flutter acceptance PENDING.** The core's exitCode=null failure was corrected using native child supervision (direct Linux C++ verification PASS); operator Dart rerun and Flutter Linux real-shell GUI still NOT RUN. New branch `feature/term-02b-flutter-linux-real-pty` uses pinned Linux-capable core `698bcf3310c184ba0bee4e3a2ccca75217a80147`. The demo launches **two actual Bash processes** through `RemVibeTerminal.currentPlatform()` on Ubuntu and retains Windows ConPTY on Windows. The reusable widget accepts the optional originating-terminal `windowsPtyMode` renderer flag; default remains Windows-compatible. The mirror and detach/reattach buttons now work with real Linux PTYs; no transport code added to the viewer. Verify core Linux smoke first, then this repo's `tool/verify_ubuntu.sh` and real Bash GUI interactions. See `TERM_02B_LINUX_REAL_GUI.md`. No extra local clones/worktrees; no Update Center/SCM changes, merge, release or cleanup. The historical TERM-01G-C UI-mock acceptance below remains valid only for the earlier branch.
+**Prerequisite core TERM-02A Ubuntu technical gate PASS:** `remvibe_terminal` tested at exact `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`, root analyzer clean, **35/35 tests PASS**, real two-Bash multi-handler/detach/reattach/resize/Ctrl+C/exit smoke PASS (exit 0). Both Flutter package and example are now pinned to this source. **TERM-02B Flutter Ubuntu analyzer/tests/Debug build and real GUI acceptance PENDING**; do not use historical UI-mock acceptance as evidence for real Linux Bash viewer. No merge/release/cleanup or Update Center/SCM changes. See `TERM_02B_LINUX_REAL_GUI.md`.
+
+
 
 
 **TERM-01G-C — ACCEPTED for scoped Flutter viewer behavior on Windows and Ubuntu. Windows real ConPTY and Ubuntu UI-mock build/GUI/interactions PASS. Real Ubuntu/Linux PTY is NOT implemented. Merge, release and cleanup require separate authorization.**
