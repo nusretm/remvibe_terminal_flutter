@@ -1,6 +1,6 @@
 # Current target — remvibe_terminal_flutter
 
-**TERM-01G-C — Windows root/exemplar analyzers and tests PASS (12/12 + 1/1), real two-independent-PTY Windows GUI PASS; mirror/detach/resize/clipboard acceptance and Ubuntu gate PENDING.**
+**TERM-01G-C — Windows analyzer/tests + scoped live GUI acceptance PASS (12/12 root, 1/1 example, two PTYs, same-PTY two viewers, detach/reattach same PID). NEXT: Ubuntu Flutter Linux build/GUI test; NOT RUN.**
 
 - New repository: `nusretm/remvibe_terminal_flutter` (public; GitHub access verified).
 - Feature branch: `feature/term-01g-c-viewer-extraction`.
@@ -9,7 +9,7 @@
 - A two-pane example exists: real ConPTY PowerShell pairs on Windows with toggle to duplicate the first PTY into two viewers, and an explicitly labeled UI-only mock on Ubuntu/Linux. No Linux PTY or real Ubuntu shell support is claimed.
 - Source-of-truth boundaries: `PROJECT_RESPONSIBILITIES.md`, `TERM_01G_C_VIEWER_EXTRACTION.md`, and `AGENTS.md`.
 - Operator agreed to proceed and requested Ubuntu compilation/testing after completing the widget. **First Windows gate (2026-11-21):** `flutter pub get` succeeded, including the pinned `remvibe_terminal` Git dependency at `bad58e`; `flutter analyze` STOPPED with a single `unnecessary_import` info in `test/remvibe_terminal_widget_test.dart:1` for `dart:async`. The unused import was removed in commit `03a3ea75dbd7d8364cefe9866912cd026afc6f10`, without changing widget/runtime behavior; Windows rerun is pending. Flutter also printed that it upgraded `analysis_options.yaml` to exclude generated paths; inspect local Git status before pulling, preserve local changes. Flutter tests, example Windows build and GUI were **not reached**. Ubuntu gate is still pending until Windows acceptance. No changes to frozen Update Center or its services.
-- Windows acceptance: **root Flutter analyzer and 12/12 tests PASS; example Flutter analyzer and 1/1 test PASS; real Windows Debug EXE build/launch and independent side-by-side PowerShell execution PASS** (fourth run; screenshot). Same-PTY two-viewer mirror, detach/reattach with PID persistence, copy/paste/selection/resize parity require remaining GUI checks; see latest gate below.
+- Windows acceptance: **PASS**. Root Flutter analyzer and 12/12 tests, example Flutter analyzer and 1/1 test, Debug EXE build/launch, independent PowerShell PTYs, duplicate viewers of one PTY, same PID before/after detach/reattach, and operator-confirmed copy/paste/selection/resize all passed (fourth/fifth operator GUI evidence). See latest gate below.
 - Ubuntu acceptance (after Windows): Flutter Linux build, analyzer, tests, two-pane GUI **UI MOCK** demonstration and actual operator visual/clipboard/selection feedback. Results PENDING; separate Linux native PTY checkpoint needed for real shell support.
 - No `main` merge, release, package publication, deployment or cleanup is authorized.
 
@@ -45,3 +45,35 @@ One local checkout per Git repository, normal feature branches, no temporary val
 - **Scope of PASS:** root and example static/test gates, actual Windows build/launch and two independent simultaneous terminals with real command execution.
 - **Not yet operator-observed:** pressing `Show two viewers of first PTY` and confirming both panes receive a new output frame from ONE process; host `Detach first controller` / reattach with same shell PID and output retention; interactive clipboard/long selection/resize parity. Those final interactive checks are still required for full TERM-01G-C Windows acceptance.
 - Ubuntu build/GUI testing remains **NOT RUN**, scheduled after the remaining Windows interactive checks. No merge, release, publication, service changes, or cleanup authorized.
+
+### Windows final operator acceptance — fifth GUI observation (2026-11-21)
+
+The operator supplied a Windows Debug screenshot in mirrored-view mode and
+explicitly reported that **all tested interactions worked correctly**:
+
+- First terminal shows `Write-Output "REMVIBE-MIRROR-OK"` and
+  `REMVIBE-MIRROR-OK` in the left pane; the **same** command and output appear
+  in the right pane titled `Same PTY • second viewer`. This validates two
+  simultaneous displays observing a **single** terminal process.
+- The screenshot shows `$PID` twice, both yielding **20624**, after the
+  operator used detach/reattach; the application's status reads
+  `Shell #1 controller reattached to same PTY`. This validates persistence
+  of the shell process across control reattachment.
+- Operator additionally confirms selection, copy/paste, resize, and other
+  interacted functionality work. The screenshot shows the completed paste
+  status `Pasted 5 characters`.
+- The same bottom status also includes `incomplete output history`, a
+  **visible replay/gap indicator**. Do not claim that historical output is
+  universally complete; no functional failure was reported or established.
+- Together with the earlier analyzer, **12/12 root tests**, **1/1 example
+  test**, Windows build/launch and real concurrent independent PTYs, these
+  observations close **TERM-01G-C scoped Windows functional acceptance PASS**.
+  No further Windows gate is required before attempting Ubuntu Flutter UI
+  verification. This is **not** a full cross-platform or release acceptance.
+- Next target: Ubuntu root/example analyzer and tests, explicit Linux Debug
+  build, two-pane **UI MOCK** verification and operator GUI observation.
+  Current `remvibe_terminal` supports **Windows native ConPTY only**;
+  Ubuntu test does **not** implement or claim a native Linux PTY.
+- No main merge, package publication, cleanup, Update Center changes or
+  SCM service operations are authorized. Continue one local checkout per
+  repository.
