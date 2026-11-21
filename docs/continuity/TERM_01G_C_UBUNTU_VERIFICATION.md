@@ -1,9 +1,6 @@
 # TERM-01G-C — Ubuntu verification gate
 
-Status: **READY TO EXECUTE; NOT RUN ON UBUNTU.** Windows Flutter viewer
-functional acceptance was confirmed by the operator (2026-11-21). This is a
-distinct Ubuntu platform gate and must not be marked PASS from source commits
-or Windows results alone.
+Status: **UBUNTU TECHNICAL BUILD + INITIAL TWO-PANE GUI PASS; FINAL INTERACTION ACCEPTANCE PENDING.** Operator supplied a genuine Ubuntu desktop screenshot (2026-11-21) showing successful Linux Debug build, live Flutter window and two independent UI-mock panes. Same-source mirror, clipboard/selection and resize checks are still pending; this does NOT establish native Linux PTY support.
 
 ## Scope and explicit boundaries
 
@@ -74,3 +71,13 @@ application crashes; evaluate observed behavior.
 
 Real Ubuntu shell functionality is **not** part of this gate and requires
 separate core-engine authorization.
+
+## Ubuntu operator evidence — first desktop run (2026-11-21)
+
+- The operator supplied a real screenshot from Ubuntu's graphical desktop on `remvibe-ci-ubuntu`, with the Linux Flutter example running in a window beside the successful verification terminal.
+- Visible terminal results: example `flutter analyze` **No issues found**; example `flutter test` **1/1 PASS**; explicit `flutter build linux --debug` completed and emitted `build/linux/x64/debug/bundle/remvibe_terminal_flutter_example`; `flutter run -d linux` built/launched a real desktop window, printed the VM Service address, and synced to the device.
+- The successful arrival at the example Linux compile/run means the preceding root `flutter pub get`, analyzer and tests in the stop-on-error script did not stop it. The screenshot does **not** expose the earlier root test count; do not fabricate the exact number from the cropped scrollback.
+- The screenshot clearly shows `UI mock — no Linux shell` and `UBUNTU UI-ONLY TEST: mock source; Linux native PTY not supported`. Left pane `Mock #1` renders scrollback lines 93–110 and live mock frames 1–12; right pane `Mock #2` renders its own live mock frames 1–12. **Ubuntu UI-only two-independent-pane render and Linux Debug build/launch PASS.**
+- Non-fatal `libEGL warning: DRI3 error: Could not get DRI3 device` messages occurred, but Flutter opened and rendered the actual UI; no crash is established by the warnings.
+- The screenshot remains in **two separate mock sources mode** (button offers `Show two viewers of first PTY`). There is no operator observation yet of switching into two viewers of one mock source on Ubuntu, or of Linux selection/copy, paste confirmation and resize interactions. Those interactive checks remain **PENDING** for full scoped Ubuntu widget acceptance.
+- The Linux test is **not** native Ubuntu terminal/shell support: the core remains Windows ConPTY-only. No modifications to the core, Update Center, SCM services, main branch, release, deployment or cleanup are authorized. Continue with one existing checkout per repository.
