@@ -18,7 +18,7 @@ The reason to build independent RemVibe Terminal packages is to support **real o
 - The Flutter viewer still consumes only `TerminalHandler`. No PTY process,
   socket, Fleet or remote handler code is introduced into the viewer.
 - The example now detects Linux and calls `RemVibeTerminal.currentPlatform()`
-  to open two real interactive `exec /bin/bash --noprofile --norc -i`
+  to open two real interactive `exec /bin/bash -i`
   shells, each with its own process and controller; Windows continues using
   its existing PowerShell/ConPTY path.
 - Clicking `Show two viewers of first PTY` mirrors one real Bash process.
@@ -116,3 +116,12 @@ separate accepted checkpoint.
 
 **Acceptance gate for this narrow change:** Flutter root `flutter analyze`, `flutter test`, example `flutter analyze`/`flutter test`, and Linux Debug build on the **same existing Ubuntu checkout**; then run the real Bash app and note the right footer after a clean launch and after toggling mirror. The new source/tests are **not yet run by the operator**; do not claim they pass. Preserve all local Flutter-generated files and named stash. No merge/release/cleanup/Update Center/SCM actions.
 
+## TERM-02B-BASH-PROMPT-01 — Use the user's Bash prompt (2026-11-21)
+
+**Operator observation:** Real Linux PTY and GUI worked, but interactive Bash displayed the generic `bash-5.3$` prompt. The operator had to manually run `export PS1='\u@\h:\w\$ '` in each shell to get the expected `user@host:working-directory$` appearance.
+
+**Cause:** The Flutter example explicitly launched `exec /bin/bash --noprofile --norc -i`. In particular, `--norc` disables the user's `~/.bashrc`, which normally configures Ubuntu's interactive prompt and aliases.
+
+**Narrow example-only change:** Launch `exec /bin/bash -i` for Linux. This is still a real non-login interactive Bash in the existing native PTY; it loads `~/.bashrc` so the user's own `PS1`, colors and aliases are respected. Do not impose a hard-coded `PS1` over a user's configuration. The Windows PowerShell command is unchanged; native PTY, FFI, widget/handler contracts and service are unchanged. The independent TERM-02A native smoke deliberately uses `--noprofile --norc` for reproducible tests; **do not change that smoke's setup to fix the Flutter demo prompt**.
+
+**Verification PENDING on Ubuntu:** Pull the updated Flutter feature HEAD, execute root+example analyzer/tests and Linux Debug build in the existing checkout, and launch the GUI. Both panes should show the normal configured prompt immediately on startup without manually typing `export PS1`. If the user's actual `~/.bashrc` sets a different prompt, that configured prompt is the correct one. The prior TERM-02B functional acceptance and the TERM-02B-GAP-01 source-test pending status remain separate. No merge/release/cleanup.
