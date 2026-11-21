@@ -76,3 +76,11 @@ No remote terminal adapter, Networking, Client/Server/Console routing,
 Update Center, installer, Windows SCM, daemon persistence, new OS outside
 Windows/Linux or unrelated security mechanics. Any such work needs a
 separate accepted checkpoint.
+
+## Ubuntu operator attempt — TERM-02B branch was not reached (2026-11-21)
+
+- Operator invoked the preflight `verify_term02b_build` from its existing Ubuntu checkout `~/development/projects/remvibe_terminal_flutter`. It exited **before Git fetch/switch, analyzer, tests or build** because the checkout was dirty:
+  `M analysis_options.yaml`, `M example/analysis_options.yaml`, and untracked `example/.metadata`, `example/README.md`, `example/linux/`, `example/pubspec.lock`, `pubspec.lock`.
+- Operator then invoked `flutter run -d linux` directly from `example`. Flutter built `remvibe_terminal_flutter_example`, but the operator reported seeing **UI-mock terminals, not real Bash**. This launch **does not verify the TERM-02B branch**, since preflight never switched the checkout. The `Lost connection to device` line by itself does not identify a crash; it can appear on window close.
+- The TERM-02B feature's remote `example/lib/main.dart` explicitly sets `_supportsNative = Platform.isWindows || Platform.isLinux`, starts two native Bash terminals when on Linux, and labels them `Bash #1` and `Bash #2` with `REAL Linux Bash / PTY`. The mock fallback is for other platforms only. Local branch/HEAD and source must be verified before attributing the mock screen to the new native implementation.
+- **Preserve all modified/untracked generated runner files.** Do not delete, clean, overwrite, create an additional checkout/worktree or automatically merge. First inspect branch and changes; if switching is blocked, preserve files in a named, reversible Git stash limited to the operator-listed paths, then use the SAME checkout on TERM-02B. Do not claim a Flutter analyzer/build/real-shell GUI PASS yet.
