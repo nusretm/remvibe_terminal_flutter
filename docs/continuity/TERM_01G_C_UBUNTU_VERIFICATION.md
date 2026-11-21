@@ -1,6 +1,6 @@
 # TERM-01G-C — Ubuntu verification gate
 
-Status: **UBUNTU TECHNICAL BUILD + INITIAL TWO-PANE GUI PASS; FINAL INTERACTION ACCEPTANCE PENDING.** Operator supplied a genuine Ubuntu desktop screenshot (2026-11-21) showing successful Linux Debug build, live Flutter window and two independent UI-mock panes. Same-source mirror, clipboard/selection and resize checks are still pending; this does NOT establish native Linux PTY support.
+Status: **UBUNTU TECHNICAL BUILD + INITIAL TWO-PANE GUI PASS; FINAL INTERACTION ACCEPTANCE PENDING.** Operator supplied a genuine Ubuntu desktop screenshot (2026-11-21) showing successful Linux Debug build, live Flutter window and two independent UI-mock panes. Same-source mirror and return-to-second-source PASS; clipboard/selection and resize checks are still pending; this does NOT establish native Linux PTY support.
 
 ## Scope and explicit boundaries
 
@@ -81,3 +81,11 @@ separate core-engine authorization.
 - Non-fatal `libEGL warning: DRI3 error: Could not get DRI3 device` messages occurred, but Flutter opened and rendered the actual UI; no crash is established by the warnings.
 - The screenshot remains in **two separate mock sources mode** (button offers `Show two viewers of first PTY`). There is no operator observation yet of switching into two viewers of one mock source on Ubuntu, or of Linux selection/copy, paste confirmation and resize interactions. Those interactive checks remain **PENDING** for full scoped Ubuntu widget acceptance.
 - The Linux test is **not** native Ubuntu terminal/shell support: the core remains Windows ConPTY-only. No modifications to the core, Update Center, SCM services, main branch, release, deployment or cleanup are authorized. Continue with one existing checkout per repository.
+
+## Ubuntu operator follow-up — reversible mirror interaction (2026-11-21)
+
+- Operator manually clicked `Show two viewers of first PTY` in the running Ubuntu Flutter example. **First click PASS:** the right pane switched from independent mock #2 into a mirror of the first mock source.
+- **Second click PASS:** the right pane returned to the independent second mock terminal source.
+- This is operator-confirmed **reversible UI mock source switching / multiple viewers of one event source**. The Ubuntu Linux Debug build and dual-pane launch were already verified in the previous run.
+- The operator did not separately report Ubuntu-specific drag selection/copy, paste confirmation or resize behavior in this follow-up. These remain **unverified on Ubuntu**, rather than silently accepted.
+- No real Linux shell or PTY is involved; no native Linux implementation is claimed. No merge, release, publication, destructive checkout cleanup or changes to `remvibe_terminal`, Update Center or SCM are authorized.
