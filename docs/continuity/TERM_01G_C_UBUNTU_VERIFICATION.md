@@ -1,6 +1,6 @@
 # TERM-01G-C — Ubuntu verification gate
 
-Status: **UBUNTU TECHNICAL BUILD + INITIAL TWO-PANE GUI PASS; FINAL INTERACTION ACCEPTANCE PENDING.** Operator supplied a genuine Ubuntu desktop screenshot (2026-11-21) showing successful Linux Debug build, live Flutter window and two independent UI-mock panes. Same-source mirror and return-to-second-source PASS; clipboard/selection and resize checks are still pending; this does NOT establish native Linux PTY support.
+Status (2026-11-21): **UBUNTU FLUTTER VIEWER ACCEPTANCE PASS** for the planned UI-mock scope. Operator confirmed Linux Debug build/GUI, two independent mock panes, mirror toggle in both directions, selection/copy, paste with confirmation and window resizing. **Real Linux PTY / Bash remains OUT OF SCOPE and unsupported.**
 
 ## Scope and explicit boundaries
 
@@ -89,3 +89,30 @@ separate core-engine authorization.
 - This is operator-confirmed **reversible UI mock source switching / multiple viewers of one event source**. The Ubuntu Linux Debug build and dual-pane launch were already verified in the previous run.
 - The operator did not separately report Ubuntu-specific drag selection/copy, paste confirmation or resize behavior in this follow-up. These remain **unverified on Ubuntu**, rather than silently accepted.
 - No real Linux shell or PTY is involved; no native Linux implementation is claimed. No merge, release, publication, destructive checkout cleanup or changes to `remvibe_terminal`, Update Center or SCM are authorized.
+
+## TERM-01G-C Ubuntu final operator acceptance — 2026-11-21
+
+Following the operator-confirmed Ubuntu build, running Flutter desktop window,
+two independent mock terminal displays and reversible same-source viewer toggle,
+the operator explicitly confirmed **window resizing, text copy, paste and the
+paste-confirmation dialog all work correctly**. The preceding question also
+covered text selection; the operator replied affirmatively. This closes the
+remaining planned Ubuntu Flutter viewer interaction checks.
+
+**Acceptance boundary:** Windows real ConPTY terminal/viewer functionality
+and Ubuntu **Flutter UI-mock viewer** functionality are now accepted for
+TERM-01G-C. Ubuntu used a simulated TerminalHandler only; **real Linux/Bash
+PTY support has neither been implemented nor tested**. An earlier visible
+`libEGL / DRI3` warning did not prevent GUI rendering. The earlier
+`incomplete output history` indicator in the Windows screenshot is an
+explicit replay/gap warning, not proof of complete output history. The Ubuntu
+root test suite completed far enough to reach the Linux example build in the
+stop-on-error script, but the screenshot did not expose an exact root test
+count; do not invent one.
+
+The earlier dated sections documenting pending checks are **chronological
+history**, superseded by this final operator acceptance. The approved scope
+does not permit automatic PR merge, package publication, deployment,
+worktree cleanup or any changes to `remvibe_terminal`, Update Center,
+Networking, Windows SCM services or native Linux PTY support. One local
+checkout per repository remains mandatory.
