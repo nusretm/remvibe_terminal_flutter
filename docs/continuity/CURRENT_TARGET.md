@@ -2,11 +2,11 @@
 
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
-**First operator TERM-02B attempt BLOCKED:** preflight stopped on existing modified Flutter config and generated Linux runner/lockfiles **before switching to the real-Bash feature branch**. A subsequent direct `flutter run -d linux` displayed historical UI mock; that is not TERM-02B verification. Inspect local branch/HEAD, preserve files, then switch in the same checkout. Real Linux Flutter build/GUI remains PENDING.
+**TERM-02B Ubuntu real-Bash functional acceptance PASS (operator log and screenshot, 2026-11-21).** Existing Ubuntu checkout on `feature/term-02b-flutter-linux-real-pty` at source commit `8b745ab105b8c6733f8f532be6ea175ddb9ec3dc`, depending on core `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`. Flutter root `flutter analyze` clean and **13/13 tests PASS**; example analyze clean and **1/1 test PASS**; Linux x64 Debug build **PASS** (verification exit **0**). Operator launched `flutter run -d linux`, screenshot confirms **REAL Linux Bash / PTY** and two `bash-5.3$` panes running distinct real filesystem commands; operator confirms all attempted interactions worked including controller reattach. This is an actual **real-shell GUI** acceptance, not historical UI mock.
 
-**Prerequisite core TERM-02A Ubuntu technical gate PASS:** `remvibe_terminal` tested at exact `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`, root analyzer clean, **35/35 tests PASS**, real two-Bash multi-handler/detach/reattach/resize/Ctrl+C/exit smoke PASS (exit 0). Both Flutter package and example are now pinned to this source. **TERM-02B Flutter Ubuntu analyzer/tests/Debug build and real GUI acceptance PENDING**; do not use historical UI-mock acceptance as evidence for real Linux Bash viewer. No merge/release/cleanup or Update Center/SCM changes. See `TERM_02B_LINUX_REAL_GUI.md`.
+**Follow-up observation, not silently discarded:** screenshot right footer says `Output sequence gap: incomplete history • incomplete output history`; left says `Watching`. No evidence yet to distinguish replay truncation/sequence warning from genuinely missing user-visible output. Keep as a scoped issue for focused review if reproducible; do not overstate complete output-history acceptance. No native change justified from screenshot alone.
 
-
+**Boundaries:** older generated Flutter files saved in named Git stash; same existing checkout used. No main merge, release, cleanup, Flutter widget ownership expansion, Update Center/SCM/Networking/remote handler changes. See `TERM_02B_LINUX_REAL_GUI.md`.
 
 
 **TERM-01G-C — ACCEPTED for scoped Flutter viewer behavior on Windows and Ubuntu. Windows real ConPTY and Ubuntu UI-mock build/GUI/interactions PASS. Real Ubuntu/Linux PTY is NOT implemented. Merge, release and cleanup require separate authorization.**
