@@ -1,12 +1,12 @@
 # Current target — remvibe_terminal_flutter
 
-### TERM-02B-GAP-01 — Ubuntu automated gate PASS (2026-11-21)
+### Latest TERM-02B Ubuntu operator verification — Bash prompt PASS (2026-11-21)
 
-At `d1bb20b99d5f4bfb94494d50fd22caff5a82c0d4`, the operator's existing Ubuntu checkout passed Flutter root `flutter analyze`, **15/15 widget tests**, example `flutter analyze`, **1/1 example test**, and Linux Debug build; command **exit code 0**. The current code preserves missing-frame warnings and prints an exact sequence range, but **live GUI replay-gap cause and recurrence remain unchecked**. Existing generated Flutter files and the older named stash remain preserved.
+**TERM-02B-BASH-PROMPT-01 ACCEPTED at operator-tested source `89e6808e609272d4d9961b5166dbe2279a33185b`:** after changing only Flutter example Linux startup from `--noprofile --norc -i` to `exec /bin/bash -i`, operator ran example `flutter analyze` (no issues), `flutter test` (**1/1 PASS**), and Linux Debug build (**PASS, exit code 0**), then opened `flutter run -d linux`. Screenshot shows two normal green Bash prompts `remvibe-admin@remvibe-ci-ubuntu:~$`, two independent commands/output, and `Watching` below both panels. Operator reports all GUI interactions rechecked and working, no manual `export PS1` needed.
 
-### TERM-02B-BASH-PROMPT-01 — user's interactive Bash settings (pending Ubuntu verification)
+**TERM-02B-GAP-01 automated gate remains PASS at `d1bb20b`:** root analyzer clean, **15/15 widget tests PASS**, example analyzer clean, **1/1 test PASS**, Linux Debug build PASS, exit 0. The newest screenshot shows **no visible gap warning** in either panel, including following user GUI interaction tests. This does not prove that the earlier warning's exact cause was identified, nor eliminate the legitimate bounded replay-gap detection. Latest source includes both fixes, but the root widget suite was not rerun specifically after the example-only prompt change.
 
-The operator saw the generic `bash-5.3$` prompt in real Bash viewers and had to run `export PS1='\\u@\\h:\\w\\$ '`. Cause: the example used `exec /bin/bash --noprofile --norc -i`, which skips `~/.bashrc`. Scoped example-only fix uses `exec /bin/bash -i`, respecting the user's prompt, aliases and other interactive settings without hard-coding PS1. Native PTY, handler, accepted Windows runtime and smoke tests unchanged. **New prompt fix has NOT yet been tested on Ubuntu.** No merge/release/cleanup.
+**Scope and preservation:** previously accepted Ubuntu/Linux real PTY core technical gate and Windows ConPTY baseline stay intact. Existing generated Flutter runner/config files and the named stash remain preserved. No cleanup, main merge, release, publication, Networking, Update Center or SCM changes.
 
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
