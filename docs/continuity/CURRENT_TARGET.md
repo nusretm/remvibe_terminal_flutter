@@ -1,5 +1,9 @@
 # Current target — remvibe_terminal_flutter
 
+### TERM-02B-GAP-01 scoped Flutter warning diagnostic (2026-11-21)
+
+**Pending Ubuntu verification:** The screenshot's right-panel output-gap warning is meaningful: the core has bounded replay and per-observer queues and reports missing frame ranges. The exact missing range was not displayed, while the old footer repeated the history warning. The new Flutter-only patch preserves the gap and labels `last gap X–Y`, with two extra tests (ordered output and implicit sequence skip), plus a stronger explicit-gap assertion. No native/core semantics or public API changed. **Original TERM-02B functional acceptance stands for its tested commit**; new UI patch analyzer/tests/build/reproduction are **PENDING**. See `TERM_02B_LINUX_REAL_GUI.md`. No merge/release/cleanup.
+
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
 **TERM-02B Ubuntu real-Bash functional acceptance PASS (operator log and screenshot, 2026-11-21).** Existing Ubuntu checkout on `feature/term-02b-flutter-linux-real-pty` at source commit `8b745ab105b8c6733f8f532be6ea175ddb9ec3dc`, depending on core `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`. Flutter root `flutter analyze` clean and **13/13 tests PASS**; example analyze clean and **1/1 test PASS**; Linux x64 Debug build **PASS** (verification exit **0**). Operator launched `flutter run -d linux`, screenshot confirms **REAL Linux Bash / PTY** and two `bash-5.3$` panes running distinct real filesystem commands; operator confirms all attempted interactions worked including controller reattach. This is an actual **real-shell GUI** acceptance, not historical UI mock.
