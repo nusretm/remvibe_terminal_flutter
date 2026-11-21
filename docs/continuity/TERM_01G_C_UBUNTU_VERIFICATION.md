@@ -1,8 +1,9 @@
 # TERM-01G-C — Ubuntu verification gate
 
-Status: **REQUESTED BY OPERATOR 2026-11-21; NOT EXECUTED.** Run **after**
-the extracted Flutter viewer passes Windows validation. This is a distinct
-platform gate and must not be marked PASS based on source commits.
+Status: **READY TO EXECUTE; NOT RUN ON UBUNTU.** Windows Flutter viewer
+functional acceptance was confirmed by the operator (2026-11-21). This is a
+distinct Ubuntu platform gate and must not be marked PASS from source commits
+or Windows results alone.
 
 ## Scope and explicit boundaries
 
@@ -45,8 +46,11 @@ bash tool/verify_ubuntu.sh
 ```
 
 The script performs `flutter pub get`, `flutter analyze`, `flutter test`,
-generates the Flutter Linux runner inside `example/`, analyzes the example,
-and starts `flutter run -d linux`. Observe the GUI manually.
+generates the Flutter Linux runner inside `example/`, analyzes and tests the
+example, explicitly compiles `flutter build linux --debug`, and starts
+`flutter run -d linux`. The final run needs a graphical Ubuntu desktop
+session (`DISPLAY`/`WAYLAND_DISPLAY`); a headless CI host can prove build/tests
+but **cannot** satisfy manual GUI acceptance. Observe the GUI manually.
 
 ## Acceptance criteria — UI-only
 
