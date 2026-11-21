@@ -2,7 +2,7 @@
 
 Reusable Flutter terminal viewer for the independent [RemVibe Terminal](https://github.com/nusretm/remvibe_terminal) Dart/ConPTY core.
 
-**Status on feature branch:** TERM-01G-C Flutter viewer source, tests and two-pane demo implemented; **not yet compiled or operator-verified** on Windows or Ubuntu. No release, publication or merge.
+**Status on feature branch (2026-11-21): TERM-01G-C scoped Flutter viewer implementation and operator acceptance PASS on Windows (real ConPTY) and Ubuntu (explicit UI mock).** No main merge, publication, release or deployment has been authorized. Real Ubuntu/Linux PTY is not supported.
 
 ## Responsibilities
 
@@ -26,9 +26,9 @@ Do **not** add networking, Fleet, device identity, SCM, installers, notification
 
 ## Source and migration
 
-The existing operator-verified Flutter terminal implementation remains under the `example/lib/terminal_widget/` directory of `remvibe_terminal` on the `feature/term-01g-local-multi-handler` branch. TERM-01G-C will extract that working implementation into this repository after separate explicit operator approval. Preserve selection, clipboard, resize and live ConPTY behaviors.
+The operator-accepted reference Flutter terminal implementation remains under `example/lib/terminal_widget/` in `remvibe_terminal` on the `feature/term-01g-local-multi-handler` branch. TERM-01G-C extracted its viewer to this repository with the neutral `TerminalHandler` interface, preserving approved selection, clipboard, resize and live ConPTY behavior. The original reference stays untouched.
 
-The feature branch provides a Flutter `pubspec.yaml`, public widget export and separate `example/` application. The core dependency is pinned to its accepted TERM-01G-B feature commit so no merge into the core main branch is required. Actual Windows verification must come first; Ubuntu Flutter/UI-mock verification afterward. No automatic merge or release is implied.
+The feature branch provides a Flutter `pubspec.yaml`, public widget export and separate `example/` application. The core dependency is pinned to its accepted TERM-01G-B feature commit so no merge into the core main branch is required. Windows verification completed before Ubuntu Flutter/UI-mock verification; both scoped checks were accepted by the operator. No automatic merge or release is implied.
 
 ## Run from a single checkout per repository
 
