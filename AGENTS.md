@@ -1,6 +1,6 @@
 # remvibe_terminal_flutter — Working rules
 
-**Current state (2026-11-21):** TERM-01G-C Windows **scoped functional acceptance PASS** (root 12/12, example 1/1, real independent PTYs/mirror/same-PID reattach). Ubuntu Linux Debug build, example analyze/test and live **two separate UI-mock panes plus reversible same-source mirror PASS**; Ubuntu clipboard/selection/resize operator checks **PENDING**. Native Linux PTY is NOT implemented. No merge, release or deployment.
+**Current state (2026-11-21): TERM-01G-C WINDOWS AND UBUNTU FLUTTER VIEWER SCOPE ACCEPTED.** Windows: root 12/12 and example 1/1 tests, real ConPTY two-terminal/mirrored-view/same-PID reattach, clipboard/selection/resize PASS. Ubuntu: Linux Debug build, example analyzer/test, two UI-mock panes, reversible shared-viewer toggle, selection/copy, paste/confirmation and resize PASS (operator verified). Native Linux PTY or real Bash is **NOT implemented**. No main merge, release, deployment or cleanup.
 
 Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TARGET.md`, and `docs/continuity/TERM_01G_C_VIEWER_EXTRACTION.md` before any implementation.
 
