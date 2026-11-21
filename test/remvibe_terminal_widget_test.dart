@@ -216,8 +216,8 @@ void main() {
       autofocus: false,
     )));
 
-    handler.emitBytes(utf8.encode('first\\r\\n'), 1);
-    handler.emitBytes(utf8.encode('second\\r\\n'), 2);
+    handler.emitBytes(utf8.encode('first\r\n'), 1);
+    handler.emitBytes(utf8.encode('second\r\n'), 2);
     await tester.pump();
 
     expect(find.text('Watching'), findsOneWidget);
@@ -233,9 +233,9 @@ void main() {
       autofocus: false,
     )));
 
-    handler.emitBytes(utf8.encode('first\\r\\n'), 1);
-    handler.emitBytes(utf8.encode('third\\r\\n'), 3);
-    handler.emitBytes(utf8.encode('fourth\\r\\n'), 4);
+    handler.emitBytes(utf8.encode('first\r\n'), 1);
+    handler.emitBytes(utf8.encode('third\r\n'), 3);
+    handler.emitBytes(utf8.encode('fourth\r\n'), 4);
     await tester.pump();
 
     expect(
