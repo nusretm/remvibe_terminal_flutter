@@ -1,5 +1,10 @@
 # Current target — remvibe_terminal_flutter
 
+### TERM-02B-BASH-PROMPT-01 — Ubuntu user Bash startup files (2026-11-21)
+
+Operator noted a generic `bash-5.3 prompt in otherwise working real Linux Bash viewers and needed a manual `export PS1`. Root cause: the Flutter example launched `exec /bin/bash --noprofile --norc -i`, skipping `~/.bashrc`. **Example-only** fix switches to `exec /bin/bash -i`, respecting the actual user's `~/.bashrc` (PS1/aliases) without forcing a custom prompt. Native Linux PTY/Windows/handler contracts unchanged. Ubuntu analyzer/tests/build and visual prompt verification **PENDING on this new HEAD**. Earlier TERM-02B user functional acceptance stands at its tested source; TERM-02B-GAP-01 warning patch also remains pending verification. No merge/release/cleanup.
+
+
 ### TERM-02B-GAP-01 scoped Flutter warning diagnostic (2026-11-21)
 
 **Pending Ubuntu verification:** The screenshot's right-panel output-gap warning is meaningful: the core has bounded replay and per-observer queues and reports missing frame ranges. The exact missing range was not displayed, while the old footer repeated the history warning. The new Flutter-only patch preserves the gap and labels `last gap X–Y`, with two extra tests (ordered output and implicit sequence skip), plus a stronger explicit-gap assertion. No native/core semantics or public API changed. **Original TERM-02B functional acceptance stands for its tested commit**; new UI patch analyzer/tests/build/reproduction are **PENDING**. See `TERM_02B_LINUX_REAL_GUI.md`. No merge/release/cleanup.
