@@ -5,6 +5,8 @@
 
 **Current state (2026-11-21): TERM-01G-C WINDOWS AND UBUNTU FLUTTER VIEWER SCOPE ACCEPTED.** Windows: root 12/12 and example 1/1 tests, real ConPTY two-terminal/mirrored-view/same-PID reattach, clipboard/selection/resize PASS. Ubuntu: Linux Debug build, example analyzer/test, two UI-mock panes, reversible shared-viewer toggle, selection/copy, paste/confirmation and resize PASS (operator verified). Native Linux PTY or real Bash is **NOT implemented**. No main merge, release, deployment or cleanup.
 
+**Pending TERM-02B-GAP-01 follow-up:** Flutter-only enhancement preserves genuine output gap events, displays latest missing sequence range, removes duplicated warning copy and adds regression tests. This new source has NOT been run on Ubuntu yet; the prior TERM-02B functional acceptance is at the previous tested source. Never claim the new patch accepted without analyzer/tests/build/operator results; do not change native PTY/SCM/Update Center or discard generated Flutter files/stash.
+
 Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TARGET.md`, and `docs/continuity/TERM_01G_C_VIEWER_EXTRACTION.md` before any implementation.
 
 - Product First; Functionality First; Windows First. Preserve the already Windows-accepted terminal user experience.
