@@ -83,9 +83,12 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
     );
     _service = service;
 
+    // Open an ordinary interactive (non-login) Bash on Linux. Let Bash
+    // read ~/.bashrc so the user's own PS1, aliases and shell setup apply.
+    // Do not force a prompt or disable startup files in the example.
     final shellCommand = _isWindows
         ? 'powershell.exe -NoLogo -NoProfile'
-        : 'exec /bin/bash --noprofile --norc -i';
+        : 'exec /bin/bash -i';
     final first = service.newTerminal(
       commandLine: shellCommand,
       columns: 90,
