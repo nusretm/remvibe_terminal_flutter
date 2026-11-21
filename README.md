@@ -1,6 +1,6 @@
 # RemVibe Terminal Flutter
 
-**Active TERM-02B Linux real-terminal checkpoint:** This `feature/term-02b-flutter-linux-real-pty` branch now runs **real interactive Bash PTYs on Ubuntu**, using the Linux-capable `remvibe_terminal` dependency pinned at `698bcf3310...`. The accepted TERM-01G-C Ubuntu **UI mock** test is historical; new native Bash/Flutter verification is still PENDING. See `docs/continuity/TERM_02B_LINUX_REAL_GUI.md`. No main merge, release or publication.
+**TERM-02B real Linux terminal checkpoint:** This `feature/term-02b-flutter-linux-real-pty` branch is configured to open two real interactive Bash/PTTY terminals on Ubuntu. It pins the core at **`e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`**, which passed Ubuntu root analyzer, **35/35 Dart tests and real two-Bash smoke**. The TERM-02B **Flutter Linux build and real-shell GUI are NOT YET tested**; the accepted TERM-01G-C Ubuntu mock test is historical. See `docs/continuity/TERM_02B_LINUX_REAL_GUI.md`. No main merge, release or publication.
 
 
 Reusable Flutter terminal viewer for the independent [RemVibe Terminal](https://github.com/nusretm/remvibe_terminal) Dart/ConPTY core.
