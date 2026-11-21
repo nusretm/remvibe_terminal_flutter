@@ -46,6 +46,7 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
   String _message = 'Preparing viewer...';
 
   bool get _isWindows => Platform.isWindows;
+  bool get _supportsNative => Platform.isWindows || Platform.isLinux;
   bool get _firstHasControl => _firstController?.isAttached ?? false;
 
   @override
@@ -58,7 +59,7 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
 
   Future<void> _initialize() async {
     try {
-      if (_isWindows) {
+      if (_supportsNative) {
         await _initializeNative();
       } else {
         _initializeMock();
@@ -71,9 +72,9 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
   }
 
   Future<void> _initializeNative() async {
-    // Native Assets builds and loads the Windows ConPTY DLL.
-    // No manually copied DLL or executable-relative lookup is required.
-    final engine = RemVibeTerminal.windows();
+    // Dart Native Assets builds the correct Windows ConPTY or Linux PTY
+    // shared library. Both paths use the same TerminalSessionService API.
+    final engine = RemVibeTerminal.currentPlatform();
     _engine = engine;
     final service = TerminalSessionService.withEngine(
       engine: engine,
@@ -82,13 +83,16 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
     );
     _service = service;
 
+    final shellCommand = _isWindows
+        ? 'powershell.exe -NoLogo -NoProfile'
+        : 'exec /bin/bash --noprofile --norc -i';
     final first = service.newTerminal(
-      commandLine: 'powershell.exe -NoLogo -NoProfile',
+      commandLine: shellCommand,
       columns: 90,
       rows: 28,
     );
     final second = service.newTerminal(
-      commandLine: 'powershell.exe -NoLogo -NoProfile',
+      commandLine: shellCommand,
       columns: 90,
       rows: 28,
     );
@@ -99,12 +103,14 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
     _firstHandler = TerminalHandlerLocal(terminal: a, controller: first);
     _secondHandler = TerminalHandlerLocal(terminal: b, controller: second);
     _mirrorHandler = TerminalHandlerLocal(terminal: a); // independent watcher
-    _message = 'REAL Windows ConPTY: two independent PowerShell sessions';
+    _message = _isWindows
+        ? 'REAL Windows ConPTY: two independent PowerShell sessions'
+        : 'REAL Linux forkpty: two independent interactive Bash sessions';
   }
 
   void _initializeMock() {
-    // Ubuntu/Linux verifies the cross-platform Flutter viewer only.
-    // An actual Linux PTY backend has NOT been implemented in the core.
+    // Fallback for platforms with no native PTY backend. Linux now uses
+    // real Bash via forkpty; this mock path is NOT used on Ubuntu.
     final first = MockTerminalHandler('ubuntu-ui-mock-1');
     final second = MockTerminalHandler('ubuntu-ui-mock-2');
     _firstHandler = first;
@@ -122,7 +128,7 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
       first.writeDemo('Viewer 1 live mock frame $tick\r\n');
       second.writeDemo('Viewer 2 live mock frame $tick\r\n');
     });
-    _message = 'UBUNTU UI-ONLY TEST: mock source; Linux native PTY not supported';
+    _message = 'UNSUPPORTED HOST PLATFORM: UI mock, no native PTY';
   }
 
   Future<void> _toggleFirstControl() async {
@@ -198,15 +204,17 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
                       : 'Show two viewers of first PTY'),
                 ),
                 OutlinedButton(
-                  onPressed: _isWindows && !_loading && a != null
+                  onPressed: _supportsNative && !_loading && a != null
                       ? () => unawaited(_toggleFirstControl())
                       : null,
                   child: Text(_firstHasControl
                       ? 'Detach first controller'
                       : 'Reattach first controller'),
                 ),
-                if (!_isWindows)
-                  const Chip(label: Text('UI mock — no Linux shell')),
+                if (!_supportsNative)
+                  const Chip(label: Text('UI mock — no native shell')),
+                if (Platform.isLinux)
+                  const Chip(label: Text('REAL Linux Bash / PTY')),
               ],
             ),
           ),
@@ -227,8 +235,11 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
                               child: RemVibeTerminalWidget(
                                 key: ValueKey('primary-$_firstGeneration'),
                                 handler: a,
-                                readOnly: _isWindows && !_firstHasControl,
-                                label: _isWindows ? 'PowerShell #1' : 'Mock #1',
+                                readOnly: _supportsNative && !_firstHasControl,
+                                windowsPtyMode: _isWindows,
+                                label: _isWindows
+                                    ? 'PowerShell #1'
+                                    : (Platform.isLinux ? 'Bash #1' : 'Mock #1'),
                                 autofocus: true,
                                 onError: (error) {
                                   if (mounted) {
@@ -247,11 +258,14 @@ class _TerminalViewerHomeState extends State<TerminalViewerHome> {
                                 key: ValueKey(_mirrorFirst ? 'mirror' : 'second'),
                                 handler: b,
                                 readOnly: _mirrorFirst,
+                                windowsPtyMode: _isWindows,
                                 label: _mirrorFirst
                                     ? 'Same PTY • second viewer'
                                     : (_isWindows
                                         ? 'PowerShell #2'
-                                        : 'Mock #2'),
+                                        : (Platform.isLinux
+                                            ? 'Bash #2'
+                                            : 'Mock #2')),
                                 autofocus: false,
                                 onError: (error) {
                                   if (mounted) {
