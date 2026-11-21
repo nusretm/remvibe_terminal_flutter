@@ -195,13 +195,59 @@ void main() {
     handler.emitGap(1, 4);
     handler.emitBytes(utf8.encode('after gap'), 5);
     await tester.pump();
-    expect(find.textContaining('incomplete output history'), findsOneWidget);
+    expect(
+      find.text('Watching • incomplete output history (last gap 1–4)'),
+      findsOneWidget,
+    );
 
     handler.emitExit(7);
     handler.emitExit(7);
     await tester.pump();
     expect(exits, [7]);
     expect(find.textContaining('Exited: 7'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('gap-free ordered output has no incomplete-history warning',
+      (tester) async {
+    final handler = _FakeHandler('ordered');
+    await tester.pumpWidget(_harness(RemVibeTerminalWidget(
+      handler: handler,
+      autofocus: false,
+    )));
+
+    handler.emitBytes(utf8.encode('first\\r\\n'), 1);
+    handler.emitBytes(utf8.encode('second\\r\\n'), 2);
+    await tester.pump();
+
+    expect(find.text('Watching'), findsOneWidget);
+    expect(find.textContaining('incomplete output history'), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('implicit frame gap reports exact range and persists on exit',
+      (tester) async {
+    final handler = _FakeHandler('skipped');
+    await tester.pumpWidget(_harness(RemVibeTerminalWidget(
+      handler: handler,
+      autofocus: false,
+    )));
+
+    handler.emitBytes(utf8.encode('first\\r\\n'), 1);
+    handler.emitBytes(utf8.encode('third\\r\\n'), 3);
+    handler.emitBytes(utf8.encode('fourth\\r\\n'), 4);
+    await tester.pump();
+
+    expect(
+      find.text('Watching • incomplete output history (last gap 2–2)'),
+      findsOneWidget,
+    );
+    handler.emitExit(7);
+    await tester.pump();
+    expect(
+      find.text('Exited: 7 • incomplete output history (last gap 2–2)'),
+      findsOneWidget,
+    );
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
