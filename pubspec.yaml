@@ -12,7 +12,7 @@ dependencies:
   remvibe_terminal:
     git:
       url: https://github.com/nusretm/remvibe_terminal.git
-      ref: 698bcf3310c184ba0bee4e3a2ccca75217a80147
+      ref: e415608878daaa16b0d0ba1eaab3a2c272f3fe4b
   xterm2: ^5.4.0
 
 dev_dependencies:
