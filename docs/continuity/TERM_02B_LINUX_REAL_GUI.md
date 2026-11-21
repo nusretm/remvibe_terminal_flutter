@@ -1,6 +1,6 @@
 # TERM-02B — Real Linux Bash/PTTY Flutter integration
 
-Status (2026-11-21): **TERM-02A Ubuntu real Linux PTY core technical gate PASS (35/35 Dart tests and real dual-Bash multi-handler smoke, exit 0, exact source `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`).** TERM-02B reusable Flutter viewer and example source are ready; **Ubuntu Flutter analyzer/tests/Linux Debug build and real-shell GUI operator acceptance PENDING**. No merge/release.
+Status (2026-11-21): **TERM-02A Ubuntu native PTY technical gate PASS and TERM-02B Ubuntu real-Bash Flutter feature/operator functional verification PASS.** Flutter analyzer clean, widget tests **13/13 PASS**, example analyzer clean, example test **1/1 PASS**, Linux Debug build PASS; operator screenshot confirms two real Bash/PTY panes and successful commands, and operator reports all tested interactions working. **One nonblocking UI observation remains:** right viewer footer displayed `Output sequence gap: incomplete history • incomplete output history`. Do not silently interpret that warning as verified replay completeness; review separately if persistent. No merge/release/cleanup.
 
 ## Operator goal
 
@@ -84,3 +84,21 @@ separate accepted checkpoint.
 - Operator then invoked `flutter run -d linux` directly from `example`. Flutter built `remvibe_terminal_flutter_example`, but the operator reported seeing **UI-mock terminals, not real Bash**. This launch **does not verify the TERM-02B branch**, since preflight never switched the checkout. The `Lost connection to device` line by itself does not identify a crash; it can appear on window close.
 - The TERM-02B feature's remote `example/lib/main.dart` explicitly sets `_supportsNative = Platform.isWindows || Platform.isLinux`, starts two native Bash terminals when on Linux, and labels them `Bash #1` and `Bash #2` with `REAL Linux Bash / PTY`. The mock fallback is for other platforms only. Local branch/HEAD and source must be verified before attributing the mock screen to the new native implementation.
 - **Preserve all modified/untracked generated runner files.** Do not delete, clean, overwrite, create an additional checkout/worktree or automatically merge. First inspect branch and changes; if switching is blocked, preserve files in a named, reversible Git stash limited to the operator-listed paths, then use the SAME checkout on TERM-02B. Do not claim a Flutter analyzer/build/real-shell GUI PASS yet.
+
+## TERM-02B Ubuntu real-shell GUI — operator functional acceptance (2026-11-21)
+
+**Actual verification, not a mock:** On the existing `~/development/projects/remvibe_terminal_flutter` checkout the operator first preserved old generated files with a named Git stash, then switched to `feature/term-02b-flutter-linux-real-pty` at `8b745ab105b8c6733f8f532be6ea175ddb9ec3dc`. The root and example `pubspec.yaml` both pin Ubuntu-verified native core `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`.
+
+**Automated build and tests (operator log):**
+- Root `flutter pub get` PASS; `flutter analyze`: **no issues found**.
+- Root `flutter test`: **13/13 PASS** including the new Linux PTY viewport test; other widget behaviors remain covered.
+- `flutter create . --platforms=linux` generated the Linux runner in the **same checkout**, not a new worktree.
+- Example `flutter pub get` PASS; example `flutter analyze`: **no issues found**; example `flutter test`: **1/1 PASS** (fixture uses UI mock, so this test by itself does not prove native Bash).
+- `flutter build linux --debug`: **PASS**, produced `build/linux/x64/debug/bundle/remvibe_terminal_flutter_example`; surrounding verification command **EXIT CODE 0**.
+- `flutter run -d linux`: launched and rendered actual dual-terminal GUI; GPU/DRI3 warning was nonblocking. `Lost connection to device` appeared after the runtime session; this alone does not establish a crash.
+
+**Operator visual/interactive acceptance:** Submitted screenshot visibly shows the `REAL Linux Bash / PTY` chip, separate `Bash #1` / `Bash #2` panes with `bash-5.3$` prompts, and executed real filesystem commands (`ls -la` and `ls -la build/linux/x64/debug/`) with corresponding directory listings. The top message says `Shell #1 controller reattached to same PTY`. Operator explicitly said **all operations were tried and worked properly**, confirming the real-shell demo interactions (including mirror and controller detach/reattach) at the tested functional scope. This is the **TERM-02B Ubuntu GUI functional acceptance**, not a Git main merge, package publication or general platform release.
+
+**Nonblocking observation to track:** The screenshot's right viewer footer displays `Output sequence gap: incomplete history • incomplete output history`; left footer says `Watching`. In the current widget implementation that warning is raised on a gap event or skipped sequence number and can persist as an output-history indicator. There is insufficient evidence to decide whether the warning represents missing bytes during a re-subscription/replay or only an expected historical gap; do not dismiss it as cosmetic or claim complete replay history. Operator reports that visible interactions worked. Record the warning for focused investigation if it recurs, without modifying the accepted native PTY, Update Center or SCM as part of this checkpoint.
+
+**Repository discipline:** The operator's initial generated/modified Flutter files are saved in a named reversible Git stash; new generated files produced by Flutter are preserved. No automatic stash drop, cleanup, merge, release, new checkout, remote adapter, Networking, Update Center or SCM changes are authorized. The accepted prior Windows ConPTY and historical Ubuntu mock branch remain separate.
