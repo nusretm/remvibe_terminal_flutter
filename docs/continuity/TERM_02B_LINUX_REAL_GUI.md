@@ -1,6 +1,6 @@
 # TERM-02B — Real Linux Bash/PTTY Flutter integration
 
-Status (2026-11-21): **TERM-02A Ubuntu native PTY technical gate PASS and TERM-02B Ubuntu real-Bash Flutter feature/operator functional verification PASS.** Flutter analyzer clean, widget tests **13/13 PASS**, example analyzer clean, example test **1/1 PASS**, Linux Debug build PASS; operator screenshot confirms two real Bash/PTY panes and successful commands, and operator reports all tested interactions working. **One nonblocking UI observation remains:** right viewer footer displayed `Output sequence gap: incomplete history • incomplete output history`. Do not silently interpret that warning as verified replay completeness; review separately if persistent. No merge/release/cleanup.
+Status (2026-11-21): **TERM-02A Ubuntu native PTY core technical gate PASS; TERM-02B real-Bash Flutter GUI operator functional verification PASS at the earlier tested source.** Separate TERM-02B-GAP-01 UI warning-range patch now passed **15/15 Flutter widget tests**, **1/1 example test**, both analyzers and Linux Debug build (operator exit 0 at `d1bb20b`); actual replay-gap root cause still unverified in GUI. Example-only Bash interactive-startup prompt correction using `exec /bin/bash -i` committed subsequently and awaits Ubuntu verification. No merge/release/cleanup.
 
 ## Operator goal
 
@@ -114,7 +114,7 @@ separate accepted checkpoint.
 
 **Narrow, Flutter-only source change:** `lib/src/remvibe_terminal_widget.dart` now retains the **latest exact missing range** as `from–to` from the core event (or detects a skipped sequence) and displays `<status> • incomplete output history (last gap X–Y)`. It removes duplicated wording but keeps the warning visible across later state updates. Added tests for ordered gap-free output and implicit skipped sequences, and extended the existing explicit-gap test to verify the range; existing test fixtures remain fake to test UI semantics rather than to assert real PTY success. No core C++, Dart FFI, session service, handler contract, event schema or Windows ConPTY changes.
 
-**Acceptance gate for this narrow change:** Flutter root `flutter analyze`, `flutter test`, example `flutter analyze`/`flutter test`, and Linux Debug build on the **same existing Ubuntu checkout**; then run the real Bash app and note the right footer after a clean launch and after toggling mirror. The new source/tests are **not yet run by the operator**; do not claim they pass. Preserve all local Flutter-generated files and named stash. No merge/release/cleanup/Update Center/SCM actions.
+**Automated acceptance gate PASS for TERM-02B-GAP-01 at `d1bb20b99d5f4bfb94494d50fd22caff5a82c0d4`:** In the existing Ubuntu checkout, operator's root Flutter analyzer was clean, **15/15 widget tests PASS**, example Flutter analyzer clean, **1/1 test PASS**, Linux Debug build PASS, and verification command **exit code 0**. **Live GUI repetition/identification of the gap range is still pending**; the UI warning cannot be dismissed without evidence. A separate example-only Bash prompt fix was committed afterward and must be built/run separately. Preserve locally generated files and named stash; no merge/release/cleanup/Update Center/SCM actions.
 
 ## TERM-02B-BASH-PROMPT-01 — Use the user's Bash prompt (2026-11-21)
 
