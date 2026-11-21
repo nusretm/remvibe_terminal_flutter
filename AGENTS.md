@@ -1,6 +1,6 @@
 # remvibe_terminal_flutter — Working rules
 
-**Current state (2026-11-21):** TERM-01G-C C1–C3 source implemented on feature branch; Windows and Ubuntu verification **NOT RUN**; no runtime/product acceptance or merge. Operator requested Ubuntu build/UI testing **after** Windows widget verification. Linux native PTY remains outside this package.
+**Current state (2026-11-21):** TERM-01G-C Windows **technical and scoped GUI acceptance PASS** (root 12/12 tests; example 1/1; actual two independent PowerShell PTYs, same-PTY mirror, same-PID detach/reattach and operator-confirmed interaction). **Ubuntu Linux desktop build/UI verification NEXT and NOT RUN.** No merge, release, deployment or Linux native PTY support.
 
 Read `docs/continuity/PROJECT_RESPONSIBILITIES.md`, `docs/continuity/CURRENT_TARGET.md`, and `docs/continuity/TERM_01G_C_VIEWER_EXTRACTION.md` before any implementation.
 
