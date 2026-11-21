@@ -1,5 +1,11 @@
 # Current target — remvibe_terminal_flutter
 
+## Merge + branch cleanup — ACCEPTED (2026-11-21)
+
+**Operator Windows acceptance:** at `D:\Projects\remvibe_terminal_flutter`, repo was fast-forwarded to `main` commit `a4667f0400e0e2f2105c3d02afe10b78f83f8845`; final `git status --short --branch` reported `## main...origin/main` with no file changes. Merge [PR #1](https://github.com/nusretm/remvibe_terminal_flutter/pull/1) preserved complete history. **Remote branch cleanup PASS:** operator-deleted both `feature/term-01g-c-viewer-extraction` and `feature/term-02b-flutter-linux-real-pty` with remote SHA lease; independently verified GitHub now lists **only `main`**. **Windows local cleanup PASS:** operator checked targets merged into main, deleted remaining `feature/term-01g-c-viewer-extraction` via `git branch -d`, and confirmed only local and remote `main` refs remain.
+
+**Protected Windows work:** named stash `Windows Flutter generated files before main sync` retained, covering Windows-generated Flutter configuration/runner/lockfiles. Ubuntu local generated files, prior named stash and its original checkout were **not touched by Windows cleanup**; Ubuntu-specific local branch housekeeping is outside this confirmed result. Old Bash output gap warning remains accurately scoped in TERM-02B records; no code change or package release/publication. No worktree reset, `git clean`, stash pop/drop, installer, SCM, Update Center or Networking modifications.
+
 ## Main consolidation and cleanup handoff — 2026-11-21
 
 **MERGED:** [PR #1](https://github.com/nusretm/remvibe_terminal_flutter/pull/1) merged to `main` as merge commit `aa3fab9842de2bbb8b01221ff1e50467dd638311`, preserving all 112 feature commits. Includes accepted Flutter terminal viewer on Windows, real Ubuntu Bash/PTTY example, GAP-01 exact history-gap range display and BASH-PROMPT-01 `exec /bin/bash -i` user prompt correction.
