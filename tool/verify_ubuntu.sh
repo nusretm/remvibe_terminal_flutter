@@ -26,6 +26,6 @@ flutter test
 # Explicit Linux desktop compile gate, independently inspectable on headless CI.
 flutter build linux --debug
 
-echo "TERM-01G-C Ubuntu UI TEST: example uses an EXPLICIT mock handler."
-echo "NO Linux PTY native implementation or real shell is claimed."
+echo "TERM-02B Ubuntu LIVE PTY TEST: example launches TWO REAL BASH / PTY sessions."
+echo "Verify interactive commands, mirror, same-PID detach/reattach, resize and clipboard."
 flutter run -d linux
