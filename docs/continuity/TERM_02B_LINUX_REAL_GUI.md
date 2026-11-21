@@ -1,18 +1,18 @@
 # TERM-02B — Real Linux Bash/PTTY Flutter integration
 
-Status (2026-11-21): **FEATURE SOURCE READY FOR LIVE UBUNTU VERIFICATION; no Dart/Flutter Ubuntu results yet for TERM-02B.** Independent C++ Linux PTY native smoke was PASS on a Linux build host. This does not substitute for the operator's Ubuntu Dart and GUI checks.
+Status (2026-11-21): **FEATURE SOURCE READY FOR LIVE UBUNTU VERIFICATION; Dart/Flutter acceptance pending.** Operator core Ubuntu analyzer PASS and 29 tests PASS / 1 failed on shell exitCode null. A core native child-supervisor fix passed separate Linux C++ tests including simulated competing SIGCHLD reaping, then was pinned in the Flutter dependencies. Updated core Dart Native Assets and actual Ubuntu Flutter GUI gates still NOT RUN.
 
 ## Operator goal
 
 The reason to build independent RemVibe Terminal packages is to support **real operating-system terminals on Linux as well as Windows**, not to stop with UI mock verification. Operator explicitly requested native Linux PTY development/testing after completing the TERM-01G-C viewer scope.
 
 - `remvibe_terminal` core feature: `feature/term-02a-linux-pty`.
-- Core dependency pinned to **`4a4271805175df89ee2282408e22103111156834`** in both this package and example. Do NOT pin to the previously accepted `bad58e` Windows-only commit when verifying real Linux.
+- Core dependency pinned to **`698bcf3310c184ba0bee4e3a2ccca75217a80147`** in both this package and example. Do NOT pin to the previously accepted `bad58e` Windows-only commit when verifying real Linux.
 - Flutter integration feature: `feature/term-02b-flutter-linux-real-pty`, based on the accepted `feature/term-01g-c-viewer-extraction` head. The accepted Windows and UI-mock feature branches remain unchanged.
 
 ## Implementation boundaries
 
-- Only the **core** repository owns forkpty, Linux process groups, native
+- Only the **core** repository owns openpty/supervised child, Linux process groups, native
   PTY I/O, resize, Ctrl+C, exit/wait, Native Assets compilation and process
   lifecycle. See `remvibe_terminal/docs/continuity/TERM_02A_LINUX_PTY.md`.
 - The Flutter viewer still consumes only `TerminalHandler`. No PTY process,
@@ -48,7 +48,7 @@ Use the **existing single repository checkouts** under the operator's
    replay and natural exit code. No simulated source counts as a substitute.
 3. In the existing Flutter repo, checkout
    `feature/term-02b-flutter-linux-real-pty`; ensure dependency resolves to
-   core commit `4a427180...`.
+   core commit `698bcf33...`.
 4. Run `bash tool/verify_ubuntu.sh`, which performs Flutter
    analyze/tests, real Linux Debug build and `flutter run -d linux`.
 5. Real GUI: **two Bash prompts**, one per pane. Type distinct commands.
