@@ -1,0 +1,141 @@
+# Current target — remvibe_terminal_flutter
+
+### Latest TERM-02B Ubuntu operator verification — Bash prompt PASS (2026-11-21)
+
+**TERM-02B-BASH-PROMPT-01 ACCEPTED at operator-tested source `89e6808e609272d4d9961b5166dbe2279a33185b`:** after changing only Flutter example Linux startup from `--noprofile --norc -i` to `exec /bin/bash -i`, operator ran example `flutter analyze` (no issues), `flutter test` (**1/1 PASS**), and Linux Debug build (**PASS, exit code 0**), then opened `flutter run -d linux`. Screenshot shows two normal green Bash prompts `remvibe-admin@remvibe-ci-ubuntu:~$`, two independent commands/output, and `Watching` below both panels. Operator reports all GUI interactions rechecked and working, no manual `export PS1` needed.
+
+**TERM-02B-GAP-01 automated gate remains PASS at `d1bb20b`:** root analyzer clean, **15/15 widget tests PASS**, example analyzer clean, **1/1 test PASS**, Linux Debug build PASS, exit 0. The newest screenshot shows **no visible gap warning** in either panel, including following user GUI interaction tests. This does not prove that the earlier warning's exact cause was identified, nor eliminate the legitimate bounded replay-gap detection. Latest source includes both fixes, but the root widget suite was not rerun specifically after the example-only prompt change.
+
+**Scope and preservation:** previously accepted Ubuntu/Linux real PTY core technical gate and Windows ConPTY baseline stay intact. Existing generated Flutter runner/config files and the named stash remain preserved. No cleanup, main merge, release, publication, Networking, Update Center or SCM changes.
+
+## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
+
+**TERM-02B Ubuntu real-Bash functional acceptance PASS (operator log and screenshot, 2026-11-21).** Existing Ubuntu checkout on `feature/term-02b-flutter-linux-real-pty` at source commit `8b745ab105b8c6733f8f532be6ea175ddb9ec3dc`, depending on core `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b`. Flutter root `flutter analyze` clean and **13/13 tests PASS**; example analyze clean and **1/1 test PASS**; Linux x64 Debug build **PASS** (verification exit **0**). Operator launched `flutter run -d linux`, screenshot confirms **REAL Linux Bash / PTY** and two `bash-5.3$` panes running distinct real filesystem commands; operator confirms all attempted interactions worked including controller reattach. This is an actual **real-shell GUI** acceptance, not historical UI mock.
+
+**Follow-up observation, not silently discarded:** screenshot right footer says `Output sequence gap: incomplete history • incomplete output history`; left says `Watching`. No evidence yet to distinguish replay truncation/sequence warning from genuinely missing user-visible output. Keep as a scoped issue for focused review if reproducible; do not overstate complete output-history acceptance. No native change justified from screenshot alone.
+
+**Boundaries:** older generated Flutter files saved in named Git stash; same existing checkout used. No main merge, release, cleanup, Flutter widget ownership expansion, Update Center/SCM/Networking/remote handler changes. See `TERM_02B_LINUX_REAL_GUI.md`.
+
+
+**TERM-01G-C — ACCEPTED for scoped Flutter viewer behavior on Windows and Ubuntu. Windows real ConPTY and Ubuntu UI-mock build/GUI/interactions PASS. Real Ubuntu/Linux PTY is NOT implemented. Merge, release and cleanup require separate authorization.**
+
+- New repository: `nusretm/remvibe_terminal_flutter` (public; GitHub access verified).
+- Feature branch: `feature/term-01g-c-viewer-extraction`.
+- Reference core: `nusretm/remvibe_terminal`, feature branch `feature/term-01g-local-multi-handler`; operator verified TERM-01G-B Windows native/analyzer, 27/27 root Dart tests, real dual-PTY/two-watchers smoke, Flutter analyzer, 8/8 Flutter tests, and existing GUI multi-session create/detach/selection.
+- `remvibe_terminal_flutter` feature branch now has Flutter `pubspec.yaml`, exported `RemVibeTerminalWidget(handler:...)`, copied proven scrollback/clipboard/resize helpers, new typed handler registration/stream/state binding, 8 migrated helper tests and 4 new widget tests. These test sources ran successfully on Windows (12/12 root widget/helper tests, 1/1 example test); Ubuntu example tests and Linux Debug GUI gate passed (the Ubuntu root test count was not visible in the screenshot).
+- A two-pane example exists: real ConPTY PowerShell pairs on Windows with toggle to duplicate the first PTY into two viewers, and an explicitly labeled UI-only mock on Ubuntu/Linux. No Linux PTY or real Ubuntu shell support is claimed.
+- Source-of-truth boundaries: `PROJECT_RESPONSIBILITIES.md`, `TERM_01G_C_VIEWER_EXTRACTION.md`, and `AGENTS.md`.
+- Operator agreed to proceed and requested Ubuntu compilation/testing after completing the widget. **First Windows gate (2026-11-21):** `flutter pub get` succeeded, including the pinned `remvibe_terminal` Git dependency at `bad58e`; `flutter analyze` STOPPED with a single `unnecessary_import` info in `test/remvibe_terminal_widget_test.dart:1` for `dart:async`. The unused import was removed in commit `03a3ea75dbd7d8364cefe9866912cd026afc6f10`, without changing widget/runtime behavior; Windows rerun is pending. Flutter also printed that it upgraded `analysis_options.yaml` to exclude generated paths; inspect local Git status before pulling, preserve local changes. Flutter tests, example Windows build and GUI were **not reached**. Ubuntu gate is still pending until Windows acceptance. No changes to frozen Update Center or its services.
+- Windows acceptance: **PASS**. Root Flutter analyzer and 12/12 tests, example Flutter analyzer and 1/1 test, Debug EXE build/launch, independent PowerShell PTYs, duplicate viewers of one PTY, same PID before/after detach/reattach, and operator-confirmed copy/paste/selection/resize all passed (fourth/fifth operator GUI evidence). See latest gate below.
+- Ubuntu acceptance (after Windows): Flutter Linux build, analyzer, tests, two-pane GUI **UI MOCK** demonstration and actual operator visual/clipboard/selection feedback. Results PENDING; separate Linux native PTY checkpoint needed for real shell support.
+- No `main` merge, release, package publication, deployment or cleanup is authorized.
+
+## Local directory rule (2026-11-21)
+
+One local checkout per Git repository, normal feature branches, no temporary validation worktrees or per-task clones. For this project use `D:\Projects\remvibe_terminal_flutter`; the core remains `D:\Projects\remvibe_terminal`. Inspect any dirty status and protect existing files. The previously made `remvibe_terminal_term_01g_verify` checkout must not be used as a template; its cleanup is operator-controlled. See `AGENTS.md`.
+
+### Windows operator gate — second run (2026-11-21)
+
+- Operator continued in the existing single `D:\Projects\remvibe_terminal_flutter` checkout on `feature/term-01g-c-viewer-extraction` (pre-run HEAD `c43187b0b499fc54666a6a9b6a975ffbd2887f5c`). No verification worktree was created.
+- `git status --short` showed only Flutter-generated `analysis_options.yaml` and `example/analysis_options.yaml` exclude-build additions, plus untracked `pubspec.lock` and `example/pubspec.lock`. `git pull --ff-only` completed without overwriting them. These files must remain protected; no reset/clean is allowed.
+- `flutter pub get` root and example: PASS. Root `flutter analyze`: **No issues found, PASS**.
+- Root `flutter test`: **11 passed / 1 failed**, stopping the script before Windows example build/GUI. Only failure: first widget test expected one unregister call after removing pane B but got two. The test had changed the retained pane A's parent element path from `Row > Expanded > Widget` to `Widget` directly, legitimately disposing both old viewer elements and creating a new pane A. This was a **test fixture error**, not evidence of a PTY subscription bug.
+- Test corrected in commit `1627ab816bd1497249cf30c8b233efccfeda02d7`: preserve the original `Row > Expanded > Widget` path for pane A and verify the original registration token is retained when only pane B is removed.
+- **Rerun required.** No claim yet of 12/12 test PASS, Windows example build, GUI or Ubuntu verification. Preserve local changes in the single checkout. Do not merge, release, deploy or clean up.
+
+### Windows operator gate — third run (2026-11-21)
+
+- Git fast-forward at the existing single local checkout preserved the Flutter-generated `analysis_options.yaml` changes and untracked `pubspec.lock` files.
+- Root `flutter pub get`: PASS. Root `flutter analyze`: **PASS (No issues found)**. Root `flutter test`: **12/12 PASS**, including the corrected independent-viewer lifecycle test.
+- `flutter create . --platforms=windows` generated platform runner in-place and also a default `example/test/widget_test.dart` referencing nonexistent `MyApp`. The example `flutter analyze` failed only on this Flutter template test (`creation_with_non_type` at line 16). Thus the script stopped **before Windows build/GUI**. No terminal-widget runtime failure is established.
+- Committed `example/test/widget_test.dart` with a real UI-mock subscriber/replay/unregister test (commit `bc123eb00f4d636e7a7095b33030d1cba67b1a93`), replacing the generic template permanently for future fresh checkouts. The existing **untracked** local generated `example/test/widget_test.dart` must be checked and specifically removed **only if** it matches the default `MyApp` counter template before `git pull --ff-only` can create the tracked file. Do NOT reset/clean or delete any other local files.
+- `tool/verify_windows.ps1` and `tool/verify_ubuntu.sh` now generate their platform runner only when absent and run `flutter test` inside `example/` as well. Same checkout only; no parallel worktree.
+- Next: operator-controlled local template reconciliation, fast-forward pull, rerun the Windows verification script; collect example analyzer/tests, real Windows executable and GUI observations. Ubuntu gate remains **NOT RUN** until Windows acceptance.
+
+### Windows operator gate — fourth run, real two-pane GUI (2026-11-21)
+
+- Operator safely removed ONLY the generated, untracked Flutter `MyApp` counter-template file after a content check and fast-forwarded to `5c122032d495c6ab9268fd3661c89b84502ea230` in the existing `D:\Projects\remvibe_terminal_flutter` checkout. No parallel worktree; preserved other Flutter-generated files.
+- Root `flutter pub get` PASS, root `flutter analyze` **No issues found**, root `flutter test` **12/12 PASS**.
+- Example `flutter pub get` PASS, example `flutter analyze` **No issues found**, example `flutter test` **1/1 PASS**.
+- Windows Debug `remvibe_terminal_flutter_example.exe` **built and launched** successfully. Operator supplied an actual GUI screenshot showing **two concurrent, independent PowerShell ConPTY terminals side by side**: left `PowerShell #1` executed `ls .\\build\\` and displayed the build directory; right `PowerShell #2` executed `ls` and displayed the example directory. This is observed GUI evidence for distinct concurrent local PTYs and terminal output rendering.
+- The final Flutter CLI line was `Lost connection to device`. Operator previously explained that this message appears when the main Debug window is closed directly rather than exiting with `q`. No crash is established from this line alone.
+- **Scope of PASS:** root and example static/test gates, actual Windows build/launch and two independent simultaneous terminals with real command execution.
+- **Not yet operator-observed:** pressing `Show two viewers of first PTY` and confirming both panes receive a new output frame from ONE process; host `Detach first controller` / reattach with same shell PID and output retention; interactive clipboard/long selection/resize parity. Those final interactive checks are still required for full TERM-01G-C Windows acceptance.
+- Ubuntu build/GUI testing remains **NOT RUN**, scheduled after the remaining Windows interactive checks. No merge, release, publication, service changes, or cleanup authorized.
+
+### Windows final operator acceptance — fifth GUI observation (2026-11-21)
+
+The operator supplied a Windows Debug screenshot in mirrored-view mode and
+explicitly reported that **all tested interactions worked correctly**:
+
+- First terminal shows `Write-Output "REMVIBE-MIRROR-OK"` and
+  `REMVIBE-MIRROR-OK` in the left pane; the **same** command and output appear
+  in the right pane titled `Same PTY • second viewer`. This validates two
+  simultaneous displays observing a **single** terminal process.
+- The screenshot shows `$PID` twice, both yielding **20624**, after the
+  operator used detach/reattach; the application's status reads
+  `Shell #1 controller reattached to same PTY`. This validates persistence
+  of the shell process across control reattachment.
+- Operator additionally confirms selection, copy/paste, resize, and other
+  interacted functionality work. The screenshot shows the completed paste
+  status `Pasted 5 characters`.
+- The same bottom status also includes `incomplete output history`, a
+  **visible replay/gap indicator**. Do not claim that historical output is
+  universally complete; no functional failure was reported or established.
+- Together with the earlier analyzer, **12/12 root tests**, **1/1 example
+  test**, Windows build/launch and real concurrent independent PTYs, these
+  observations close **TERM-01G-C scoped Windows functional acceptance PASS**.
+  No further Windows gate is required before attempting Ubuntu Flutter UI
+  verification. This is **not** a full cross-platform or release acceptance.
+- Next target: Ubuntu root/example analyzer and tests, explicit Linux Debug
+  build, two-pane **UI MOCK** verification and operator GUI observation.
+  Current `remvibe_terminal` supports **Windows native ConPTY only**;
+  Ubuntu test does **not** implement or claim a native Linux PTY.
+- No main merge, package publication, cleanup, Update Center changes or
+  SCM service operations are authorized. Continue one local checkout per
+  repository.
+
+## Ubuntu operator evidence — first desktop run (2026-11-21)
+
+- The operator supplied a real screenshot from Ubuntu's graphical desktop on `remvibe-ci-ubuntu`, with the Linux Flutter example running in a window beside the successful verification terminal.
+- Visible terminal results: example `flutter analyze` **No issues found**; example `flutter test` **1/1 PASS**; explicit `flutter build linux --debug` completed and emitted `build/linux/x64/debug/bundle/remvibe_terminal_flutter_example`; `flutter run -d linux` built/launched a real desktop window, printed the VM Service address, and synced to the device.
+- The successful arrival at the example Linux compile/run means the preceding root `flutter pub get`, analyzer and tests in the stop-on-error script did not stop it. The screenshot does **not** expose the earlier root test count; do not fabricate the exact number from the cropped scrollback.
+- The screenshot clearly shows `UI mock — no Linux shell` and `UBUNTU UI-ONLY TEST: mock source; Linux native PTY not supported`. Left pane `Mock #1` renders scrollback lines 93–110 and live mock frames 1–12; right pane `Mock #2` renders its own live mock frames 1–12. **Ubuntu UI-only two-independent-pane render and Linux Debug build/launch PASS.**
+- Non-fatal `libEGL warning: DRI3 error: Could not get DRI3 device` messages occurred, but Flutter opened and rendered the actual UI; no crash is established by the warnings.
+- The screenshot remains in **two separate mock sources mode** (button offers `Show two viewers of first PTY`). There is no operator observation yet of switching into two viewers of one mock source on Ubuntu, or of Linux selection/copy, paste confirmation and resize interactions. Those interactive checks remain **PENDING** for full scoped Ubuntu widget acceptance.
+- The Linux test is **not** native Ubuntu terminal/shell support: the core remains Windows ConPTY-only. No modifications to the core, Update Center, SCM services, main branch, release, deployment or cleanup are authorized. Continue with one existing checkout per repository.
+
+## Ubuntu operator follow-up — reversible mirror interaction (2026-11-21)
+
+- Operator manually clicked `Show two viewers of first PTY` in the running Ubuntu Flutter example. **First click PASS:** the right pane switched from independent mock #2 into a mirror of the first mock source.
+- **Second click PASS:** the right pane returned to the independent second mock terminal source.
+- This is operator-confirmed **reversible UI mock source switching / multiple viewers of one event source**. The Ubuntu Linux Debug build and dual-pane launch were already verified in the previous run.
+- The operator did not separately report Ubuntu-specific drag selection/copy, paste confirmation or resize behavior in this follow-up. These remain **unverified on Ubuntu**, rather than silently accepted.
+- No real Linux shell or PTY is involved; no native Linux implementation is claimed. No merge, release, publication, destructive checkout cleanup or changes to `remvibe_terminal`, Update Center or SCM are authorized.
+
+## TERM-01G-C Ubuntu final operator acceptance — 2026-11-21
+
+Following the operator-confirmed Ubuntu build, running Flutter desktop window,
+two independent mock terminal displays and reversible same-source viewer toggle,
+the operator explicitly confirmed **window resizing, text copy, paste and the
+paste-confirmation dialog all work correctly**. The preceding question also
+covered text selection; the operator replied affirmatively. This closes the
+remaining planned Ubuntu Flutter viewer interaction checks.
+
+**Acceptance boundary:** Windows real ConPTY terminal/viewer functionality
+and Ubuntu **Flutter UI-mock viewer** functionality are now accepted for
+TERM-01G-C. Ubuntu used a simulated TerminalHandler only; **real Linux/Bash
+PTY support has neither been implemented nor tested**. An earlier visible
+`libEGL / DRI3` warning did not prevent GUI rendering. The earlier
+`incomplete output history` indicator in the Windows screenshot is an
+explicit replay/gap warning, not proof of complete output history. The Ubuntu
+root test suite completed far enough to reach the Linux example build in the
+stop-on-error script, but the screenshot did not expose an exact root test
+count; do not invent one.
+
+The earlier dated sections documenting pending checks are **chronological
+history**, superseded by this final operator acceptance. The approved scope
+does not permit automatic PR merge, package publication, deployment,
+worktree cleanup or any changes to `remvibe_terminal`, Update Center,
+Networking, Windows SCM services or native Linux PTY support. One local
+checkout per repository remains mandatory.

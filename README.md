@@ -1,8 +1,11 @@
 # RemVibe Terminal Flutter
 
+**TERM-02B Ubuntu real Bash Flutter functional acceptance PASS (2026-11-21).** Core `e415608` passed 35/35 Dart tests and real two-PTY smoke; Flutter `d1bb20b` passed analyzer, 15/15 widget tests, example analyzer/1/1 test and Linux Debug build. The example-only Bash prompt fix (`exec /bin/bash -i`) was then verified at `89e6808e609272d4d9961b5166dbe2279a33185b`: example analyze/test/build PASS, operator screenshot shows both real panes with user-configured colored prompt and `Watching` status, all tested interactions working. The prior history-gap warning was not visible on the latest screenshot; bounded replay gap detection remains intentional, and historical cause is not proven. Preserve generated files/stash. No main merge, release, publication or cleanup. See `docs/continuity/TERM_02B_LINUX_REAL_GUI.md`.
+
+
 Reusable Flutter terminal viewer for the independent [RemVibe Terminal](https://github.com/nusretm/remvibe_terminal) Dart/ConPTY core.
 
-**Status:** Repository initialized. TERM-01G-C widget extraction is **planned but not implemented or operator-approved**. No Flutter package build, tests, release or publication has been completed here.
+**Status on feature branch (2026-11-21): TERM-01G-C scoped Flutter viewer implementation and operator acceptance PASS on Windows (real ConPTY) and Ubuntu (explicit UI mock).** No main merge, publication, release or deployment has been authorized. Real Ubuntu/Linux PTY is not supported.
 
 ## Responsibilities
 
@@ -26,6 +29,12 @@ Do **not** add networking, Fleet, device identity, SCM, installers, notification
 
 ## Source and migration
 
-The existing operator-verified Flutter terminal implementation remains under the `example/lib/terminal_widget/` directory of `remvibe_terminal` on the `feature/term-01g-local-multi-handler` branch. TERM-01G-C will extract that working implementation into this repository after separate explicit operator approval. Preserve selection, clipboard, resize and live ConPTY behaviors.
+The operator-accepted reference Flutter terminal implementation remains under `example/lib/terminal_widget/` in `remvibe_terminal` on the `feature/term-01g-local-multi-handler` branch. TERM-01G-C extracted its viewer to this repository with the neutral `TerminalHandler` interface, preserving approved selection, clipboard, resize and live ConPTY behavior. The original reference stays untouched.
 
-The new package is not ready to import: `pubspec.yaml` and functional source will be added as part of the approved extraction checkpoint. No `main` merge or release is implied by repository creation.
+The feature branch provides a Flutter `pubspec.yaml`, public widget export and separate `example/` application. The core dependency is pinned to its accepted TERM-01G-B feature commit so no merge into the core main branch is required. Windows verification completed before Ubuntu Flutter/UI-mock verification; both scoped checks were accepted by the operator. No automatic merge or release is implied.
+
+## Run from a single checkout per repository
+
+On Windows, clone this repo once at `D:\Projects\remvibe_terminal_flutter`, switch to `feature/term-01g-c-viewer-extraction`, then run `./tool/verify_windows.ps1` in PowerShell. This validates Flutter analysis/tests then starts the two-pane real ConPTY Windows Debug example. The native core comes from the pinned Git dependency; no extra verification worktree is needed.
+
+After Windows behavior is accepted, run `bash tool/verify_ubuntu.sh` on an Ubuntu desktop with Flutter Linux prerequisites. The Ubuntu example clearly labels its **mock** event source. It tests terminal *rendering* and two independent subscriptions but not a real Linux shell. See `docs/continuity/TERM_01G_C_UBUNTU_VERIFICATION.md` for the exact gate.
