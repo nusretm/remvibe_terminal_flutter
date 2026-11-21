@@ -18,6 +18,7 @@ class RemVibeTerminalWidget extends StatefulWidget {
     required this.handler,
     this.label,
     this.readOnly = false,
+    this.windowsPtyMode = true,
     this.initialColumns = 80,
     this.initialRows = 24,
     this.autofocus = true,
@@ -31,6 +32,10 @@ class RemVibeTerminalWidget extends StatefulWidget {
 
   /// UI-only hint; handler remains authoritative for control.
   final bool readOnly;
+
+  /// Match the terminal's underlying PTY platform, not the viewer host OS.
+  /// Defaults to true to preserve existing Windows terminal rendering.
+  final bool windowsPtyMode;
   final int initialColumns;
   final int initialRows;
   final bool autofocus;
@@ -45,7 +50,7 @@ class RemVibeTerminalWidget extends StatefulWidget {
 class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
   late final Terminal _terminal = Terminal(
     maxLines: 5000,
-    windowsPtyMode: true,
+    windowsPtyMode: widget.windowsPtyMode,
     onOutput: _onTerminalInput,
     onResize: (columns, rows, pixelWidth, pixelHeight) {
       if (!widget.readOnly) _resize.request(columns: columns, rows: rows);
