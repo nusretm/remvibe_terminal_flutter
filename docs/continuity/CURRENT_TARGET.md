@@ -1,13 +1,12 @@
 # Current target — remvibe_terminal_flutter
 
-### TERM-02B-BASH-PROMPT-01 — Ubuntu user Bash startup files (2026-11-21)
+### TERM-02B-GAP-01 — Ubuntu automated gate PASS (2026-11-21)
 
-Operator noted a generic `bash-5.3 prompt in otherwise working real Linux Bash viewers and needed a manual `export PS1`. Root cause: the Flutter example launched `exec /bin/bash --noprofile --norc -i`, skipping `~/.bashrc`. **Example-only** fix switches to `exec /bin/bash -i`, respecting the actual user's `~/.bashrc` (PS1/aliases) without forcing a custom prompt. Native Linux PTY/Windows/handler contracts unchanged. Ubuntu analyzer/tests/build and visual prompt verification **PENDING on this new HEAD**. Earlier TERM-02B user functional acceptance stands at its tested source; TERM-02B-GAP-01 warning patch also remains pending verification. No merge/release/cleanup.
+At `d1bb20b99d5f4bfb94494d50fd22caff5a82c0d4`, the operator's existing Ubuntu checkout passed Flutter root `flutter analyze`, **15/15 widget tests**, example `flutter analyze`, **1/1 example test**, and Linux Debug build; command **exit code 0**. The current code preserves missing-frame warnings and prints an exact sequence range, but **live GUI replay-gap cause and recurrence remain unchecked**. Existing generated Flutter files and the older named stash remain preserved.
 
+### TERM-02B-BASH-PROMPT-01 — user's interactive Bash settings (pending Ubuntu verification)
 
-### TERM-02B-GAP-01 scoped Flutter warning diagnostic (2026-11-21)
-
-**Pending Ubuntu verification:** The screenshot's right-panel output-gap warning is meaningful: the core has bounded replay and per-observer queues and reports missing frame ranges. The exact missing range was not displayed, while the old footer repeated the history warning. The new Flutter-only patch preserves the gap and labels `last gap X–Y`, with two extra tests (ordered output and implicit sequence skip), plus a stronger explicit-gap assertion. No native/core semantics or public API changed. **Original TERM-02B functional acceptance stands for its tested commit**; new UI patch analyzer/tests/build/reproduction are **PENDING**. See `TERM_02B_LINUX_REAL_GUI.md`. No merge/release/cleanup.
+The operator saw the generic `bash-5.3$` prompt in real Bash viewers and had to run `export PS1='\\u@\\h:\\w\\$ '`. Cause: the example used `exec /bin/bash --noprofile --norc -i`, which skips `~/.bashrc`. Scoped example-only fix uses `exec /bin/bash -i`, respecting the user's prompt, aliases and other interactive settings without hard-coding PS1. Native PTY, handler, accepted Windows runtime and smoke tests unchanged. **New prompt fix has NOT yet been tested on Ubuntu.** No merge/release/cleanup.
 
 ## TERM-02B active: real Ubuntu Bash terminal, not a mock (2026-11-21)
 
