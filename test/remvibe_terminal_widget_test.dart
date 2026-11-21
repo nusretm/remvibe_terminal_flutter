@@ -222,4 +222,31 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
+  testWidgets('Linux PTY viewport accepts raw ANSI output without Windows mode',
+      (tester) async {
+    final handler = _FakeHandler('linux-bash');
+    final errors = <Object>[];
+    await tester.pumpWidget(_harness(RemVibeTerminalWidget(
+      handler: handler,
+      windowsPtyMode: false,
+      label: 'Bash #1',
+      autofocus: false,
+      onError: errors.add,
+    )));
+    expect(find.text('Bash #1'), findsOneWidget);
+    expect(handler.subscriptions, hasLength(1));
+
+    handler.emitBytes(utf8.encode(
+      '\x1b[32mRVTERM_REAL_LINUX_VIEWER\x1b[0m\r\n',
+    ), 1);
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+    expect(errors, isEmpty);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+    expect(handler.subscriptions, isEmpty);
+    expect(handler.detachCalls, 0);
+  });
+
 }
