@@ -1,5 +1,15 @@
 # Current target — remvibe_terminal_flutter
 
+## Main consolidation and cleanup handoff — 2026-11-21
+
+**MERGED:** [PR #1](https://github.com/nusretm/remvibe_terminal_flutter/pull/1) merged to `main` as merge commit `aa3fab9842de2bbb8b01221ff1e50467dd638311`, preserving all 112 feature commits. Includes accepted Flutter terminal viewer on Windows, real Ubuntu Bash/PTTY example, GAP-01 exact history-gap range display and BASH-PROMPT-01 `exec /bin/bash -i` user prompt correction.
+
+**Prerequisite:** native core [remvibe_terminal PR #1](https://github.com/nusretm/remvibe_terminal/pull/1) was already merged to core `main`; pinned core SHA `e415608878daaa16b0d0ba1eaab3a2c272f3fe4b` is reachable from the merged core main. Keep exact pin; do not convert to an unverified moving branch.
+
+**Evidence:** Ubuntu root Flutter analyzer + 15/15 widget tests and example analyzer + 1/1 test + Linux Debug build PASS at GAP-01 gate; later example-only Bash prompt fix analyzer + 1/1 test + Linux Debug build + actual operator two-pane GUI verification PASS. No root Flutter suite rerun after example-only prompt change; no new CI status reported. Both latest GUI panes showed the user's configured Bash prompt and `Watching`, without a visible history-gap warning. A previous history-gap cause remains unproven; bounded replay gap reporting intentionally remains.
+
+**Cleanup boundary:** Ubuntu checkout has generated/tracked Flutter config changes, untracked Linux runner/lockfiles and a previously created named stash; all must be preserved. Local `main` fast-forward and merged-branch removal only after ancestry verification; do not `git clean -fd`, `git reset --hard`, `git stash drop` or remove any unreviewed worktree. Connected GitHub tools cannot delete remote branch refs: `feature/term-02b-flutter-linux-real-pty` remote cleanup needs authenticated Git CLI or GitHub UI. No release, publication, Update Center, SCM, remote handler or Networking changes.
+
 ### Latest TERM-02B Ubuntu operator verification — Bash prompt PASS (2026-11-21)
 
 **TERM-02B-BASH-PROMPT-01 ACCEPTED at operator-tested source `89e6808e609272d4d9961b5166dbe2279a33185b`:** after changing only Flutter example Linux startup from `--noprofile --norc -i` to `exec /bin/bash -i`, operator ran example `flutter analyze` (no issues), `flutter test` (**1/1 PASS**), and Linux Debug build (**PASS, exit code 0**), then opened `flutter run -d linux`. Screenshot shows two normal green Bash prompts `remvibe-admin@remvibe-ci-ubuntu:~$`, two independent commands/output, and `Watching` below both panels. Operator reports all GUI interactions rechecked and working, no manual `export PS1` needed.
