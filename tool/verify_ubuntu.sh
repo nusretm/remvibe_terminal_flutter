@@ -23,6 +23,9 @@ flutter pub get
 flutter analyze
 flutter test
 
+# Explicit Linux desktop compile gate, independently inspectable on headless CI.
+flutter build linux --debug
+
 echo "TERM-01G-C Ubuntu UI TEST: example uses an EXPLICIT mock handler."
 echo "NO Linux PTY native implementation or real shell is claimed."
 flutter run -d linux
