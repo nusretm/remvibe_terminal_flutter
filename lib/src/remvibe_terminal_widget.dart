@@ -25,6 +25,8 @@ class RemVibeTerminalWidget extends StatefulWidget {
     this.showToolbar = true,
     this.onError,
     this.onExit,
+    this.leadingToolbarActions = const [],
+    this.trailingToolbarActions = const [],
   });
 
   final TerminalHandler handler;
@@ -40,6 +42,8 @@ class RemVibeTerminalWidget extends StatefulWidget {
   final int initialRows;
   final bool autofocus;
   final bool showToolbar;
+  final List<Widget> leadingToolbarActions;
+  final List<Widget> trailingToolbarActions;
   final void Function(Object error)? onError;
   final void Function(int? exitCode)? onExit;
 
@@ -191,7 +195,7 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
     final bytes = utf8.encode(text);
     // Keep async remote input operations in their original keyboard order.
     _inputQueue = _inputQueue.then((_) async {
-      if (!mounted || _detached || _pasting) return;
+      if (!mounted || _detached || _pasting || widget.readOnly) return;
       await session.input(bytes);
     }).catchError((Object error, StackTrace trace) {
       _reportError(error);
@@ -318,11 +322,13 @@ class _RemVibeTerminalWidgetState extends State<RemVibeTerminalWidget> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                ...widget.leadingToolbarActions,
                 IconButton(
                   tooltip: 'Ctrl+C (interrupt)',
                   onPressed: widget.readOnly ? null : _interrupt,
                   icon: const Icon(Icons.keyboard_control_key),
                 ),
+                ...widget.trailingToolbarActions,
               ],
             ),
           ),
