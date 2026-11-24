@@ -1,3 +1,23 @@
+## Accepted infrastructure consolidation — CLOSED (2026-11-24)
+
+**Operator acceptance, history-preserving merge and current-milestone cleanup COMPLETE.** No new feature target selected. Earlier acceptance scope and outstanding untested cases remain as documented below.
+
+Merged baseline (before this documentation-only closure):
+- remvibe_networking: `bca781e4963cda361aa2cf60add38f3ca6c8db9e` ([PR #67](https://github.com/nusretm/remvibe_networking/pull/67))
+- remvibe_terminal_flutter: `b769ba728841adb55d3168a8e7c8af4bb1608c3c` ([PR #2](https://github.com/nusretm/remvibe_terminal_flutter/pull/2))
+- remvibe_update_center_common: `8daee4b72ae2381bcc685cef38821142a36a70a1` ([PR #1](https://github.com/nusretm/remvibe_update_center_common/pull/1))
+- remvibe_update_center_server: `28ab0672aa6e0b0725569f22a24aea1f659e015d` ([PR #2](https://github.com/nusretm/remvibe_update_center_server/pull/2))
+- remvibe_update_center_client: `67eba52833e32c39bb2d08d20fe0ffe8c23eaa24` ([PR #2](https://github.com/nusretm/remvibe_update_center_client/pull/2))
+- remvibe_update_center_console: `64ada090e98e3fe36fadfcedd0a3eadf2cde250e` ([PR #2](https://github.com/nusretm/remvibe_update_center_console/pull/2))
+
+All six milestone remote branches were deleted with expected-SHA leases by the Windows operator and independently confirmed absent on GitHub. Windows local main synchronization and current-milestone branch cleanup completed for all six repositories. Common's five formatting-only edits are preserved in named stash `Common local formatting before consolidation`; Client and Console local generated files are preserved in their respective named stashes. Console local .gitignore and Windows runner files were preserved/restored without overwriting existing files; missing .metadata and analysis_options.yaml restored, flutter pub get succeeded with accepted Networking a7a7623, Terminal e415608, Terminal Flutter 005457a and Common 2732b79, plus resolved Flutter UI 3a0bde. Console retains local exclude rules for .gitignore and windows/; .metadata, analysis_options.yaml and pubspec.lock are untracked local files, not part of the merged source. No post-merge rebuild/runtime test claimed. Preserve stashes; no stash pop/drop, reset --hard or git clean.
+
+Ubuntu Client operator reported `UBUNTU CLIENT CLEANUP PASS`: main synchronized to 67eba52833e32c39bb2d08d20fe0ffe8c23eaa24, current registration feature branch removed locally, dart pub get resolved Common 2732b79, clean main tracking origin/main. Local .dart_tool/ and pubspec.lock retained using .git/info/exclude. Older local feature/uc-client-linux-01-foreground-cli (d6c1590, upstream gone) intentionally untouched. Other historical Networking branches outside this milestone untouched.
+
+Maintain the accepted working architecture. No additional CI, SCM/service deployment, identity deletion, database migration/reset, registry refactor, release or new module scope authorized by closure. Rejection runtime scenario remains untested; prior intermittent Ubuntu roster mismatch not reproduced after endpoint change, causal proof absent. Next target to be explicitly chosen by operator.
+
+---
+
 ## UC-REGISTRATION-APPROVAL-01 / terminal control — accepted baseline (2026-11-24)
 
 **Status: OPERATOR ACCEPTED; MERGE AND CLEANUP AUTHORIZED.** Tested source: `005457a`.
