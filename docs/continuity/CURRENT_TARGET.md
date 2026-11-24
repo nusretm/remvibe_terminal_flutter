@@ -1,3 +1,17 @@
+## UC-REGISTRATION-APPROVAL-01 / terminal control — accepted baseline (2026-11-24)
+
+**Status: OPERATOR ACCEPTED; MERGE AND CLEANUP AUTHORIZED.** Tested source: `005457a`.
+
+Viewer exposes generic leadingToolbarActions/trailingToolbarActions; host owns confirmation and takeover. No Networking or PTY dependency changes.
+
+**Operator acceptance and closure authorization (2026-11-24):** MTN Windows Client and Ubuntu Client connect immediately after restart; restarting foreground Server reconnects Console and both Clients immediately; Ubuntu consistently appears Online in subsequent observations. LattePanda Windows release Console connects immediately, was enrolled from existing Console without a code, opens Ubuntu PTY and supports live shared observation. Server DB-loss recovery (original DB moved to backup-20261124-030929), automatic Client pending/approval, first Console short-code recovery, integrated Devices UI, shared hardware card and DisplayName persistence across Server restart were accepted. Existing identities retained. Earlier intermittent Ready/Offline mismatch did not recur after endpoint correction; causal proof is absent. Registry single-source-of-truth improvement deferred unless reproduced; no speculative refactor. Registration rejection not separately runtime-tested. No SCM, deployment, database reset, CI expansion, macOS or new feature work authorized here.
+
+Terminal acceptance: operator opened MTN and Ubuntu terminals in primary Console, watched from LattePanda, confirmed takeover, observed former owner switch to viewer and takeover button enable immediately; cancellation left ownership unchanged, and closing/reopening tab left PTY running. No claim of separately tested Server-local PTY takeover, forced simultaneous takeover or PID measurement. Server analyze lib and Console flutter analyze lib clean with Common 2732b79 and viewer 005457a. Networking a7a7623 Windows FFI build passed (three dead-code warnings), existing endpoint checker Rust tests 2/2, Dart analyze lib clean; actual connection/reconnect acceptance as above. No new full suite or CI run claimed.
+
+Operator explicitly approved continuity, merge and cleanup; use history-preserving merges so tested dependency SHAs remain reachable. Only current milestone branches are in cleanup scope; preserve unrelated refs, local changes and stashes. Next development target requires separate operator decision.
+
+---
+
 # Current target — remvibe_terminal_flutter
 
 ## Ubuntu main synchronization + local cleanup — ACCEPTED (2026-11-21)
